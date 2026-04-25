@@ -1,0 +1,7 @@
+queries:
+  primary:
+    - "\"[keyword one]\" AND \"[keyword two]\""
+    - "\"[keyword three]\" OR \"[keyword four]\""
+  secondary:
+    - "\"[synonym one]\""
+    - "\"[synonym two]\""

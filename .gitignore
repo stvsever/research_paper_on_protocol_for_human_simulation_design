@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+*.secret
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.xdv
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Project tools
+.tools/
+.cargo-tools/
+
+# Raw data files (retrieve manually per data/README.md)
+data/raw/**/*.zip
+data/raw/**/*.tar.gz
+data/raw/**/*.pdf
+data/raw/**/*.xlsx
+data/raw/**/*.csv
+data/raw/**/*.dta
+data/raw/**/*.sav
+data/raw/**/*.json
+data/raw/**/*.txt
+# Keep source notes, gitkeeps, and small reference CSVs
+!data/raw/**/SOURCE.md
+!data/raw/**/README.md
+!data/raw/**/*.md
+!data/raw/model_benchmarks/mmlu_pilot_model_mapping.csv
+
+# Generated / processed data (not versioned)
+data/interim/*
+data/processed/*
+!data/interim/.gitkeep
+!data/processed/.gitkeep

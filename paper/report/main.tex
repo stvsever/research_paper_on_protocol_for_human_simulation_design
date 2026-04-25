@@ -1,0 +1,469 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,margin=2.54cm,top=2.8cm,bottom=2.8cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{needspace}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{pdflscape}
+\usepackage[round,authoryear]{natbib}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{nameref}
+
+\newcommand{\papertitle}{[Full Paper Title]}
+\newcommand{\paperhead}{[Short Header Title]}
+\newcommand{\paperauthor}{[Author Name]}
+\newcommand{\paperaffiliation}{[Institution, City, Country]}
+\newcommand{\paperemail}{email@example.com}
+
+\setstretch{1.15}
+\setlength{\parindent}{0.5in}
+\setlength{\parskip}{0pt}
+\setlength{\headheight}{14.5pt}
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlist[itemize]{leftmargin=1.6em, itemsep=2pt, topsep=4pt}
+\setlist[enumerate]{leftmargin=1.8em, itemsep=2pt, topsep=4pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{\paperhead}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{titlepagestyle}{%
+  \fancyhf{}%
+  \fancyhead[L]{\small\textit{\paperhead}}%
+  \renewcommand{\headrulewidth}{0.4pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+
+\DeclareCaptionLabelSeparator{apasep}{\\}
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  textfont=it,
+  labelsep=apasep,
+  justification=raggedright,
+  singlelinecheck=false,
+  skip=6pt
+}
+\captionsetup[table]{position=above}
+\captionsetup[figure]{position=above}
+\captionsetup[longtable]{
+  font=small,
+  labelfont=bf,
+  textfont=it,
+  labelsep=apasep,
+  justification=raggedright,
+  singlelinecheck=false,
+  width=\textwidth
+}
+\setlength{\LTcapwidth}{\textwidth}
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt}
+
+\newcommand{\fignote}[1]{%
+  \par\vspace{3pt}\noindent%
+  \begin{minipage}{0.96\linewidth}\footnotesize\raggedright\textit{Note.}~#1\end{minipage}%
+}
+\newcommand{\tabnote}[1]{%
+  \par\vspace{3pt}\noindent%
+  \begin{minipage}{0.96\linewidth}\footnotesize\raggedright\textit{Note.}~#1\end{minipage}%
+}
+\newcommand{\placeholder}[1]{\textit{#1}}
+
+\begin{document}
+\emergencystretch=2em
+
+\begin{titlepage}
+\thispagestyle{titlepagestyle}
+\vspace*{1.4cm}
+\begin{center}
+{\fontsize{18}{22}\selectfont\bfseries \papertitle\par}
+\vspace{1.8cm}
+{\large \paperauthor\textsuperscript{1,*}\par}
+\vspace{0.30cm}
+{\normalsize \textsuperscript{1} \paperaffiliation\par}
+\vspace{0.15cm}
+{\normalsize \textsuperscript{*}Corresponding author: \href{mailto:\paperemail}{\paperemail}\par}
+\end{center}
+\vspace{1.0cm}
+\begin{center}
+\textbf{Abstract}
+\end{center}
+\begin{center}
+\begin{minipage}{0.92\textwidth}
+\placeholder{Write a compact abstract here. This template preserves the same title-page style and abstract block as the source project, but all study-specific claims, statistics, and wording have been removed. A practical starting point is: context, gap, objective, design, core result, and contribution.}
+\end{minipage}
+\end{center}
+\end{titlepage}
+
+\clearpage
+\setcounter{page}{1}
+
+\section{Introduction}
+
+\subsection{Research Context and Motivation}
+
+\placeholder{Explain the real-world problem, why it matters, and why the topic warrants study. Cite foundational background where relevant \citep{placeholder_background}.}
+
+\subsection{Conceptual Background}
+
+\placeholder{Define the main constructs, theoretical framing, or disciplinary lens. Keep this subsection at the level of argument-building rather than results preview.}
+
+\subsection{State of the Literature and Gaps}
+
+\placeholder{Summarize prior work, then isolate the unresolved gap your study addresses.}
+
+\subsection{The Present Study and Research Questions}
+
+\placeholder{State the purpose of the paper and list the confirmatory or guiding research questions.}
+
+\begin{enumerate}[label=RQ\arabic*.,leftmargin=2.8em]
+  \item \placeholder{[Primary research question]}
+  \item \placeholder{[Secondary research question]}
+  \item \placeholder{[Comparative or mechanism question]}
+  \item \placeholder{[Model-performance or validation question]}
+\end{enumerate}
+
+\section{Methods}
+
+\subsection{Framework or Corpus Construction}
+
+\placeholder{Describe how the study frame, corpus, taxonomy, dataset, or evidence base was constructed. Reference protocol decisions and inclusion logic here.}
+
+\subsection{Construct Inventory and Measurement}
+
+\placeholder{Explain how core constructs, annotations, scales, or coded dimensions were defined and measured \citep{placeholder_method}.}
+
+\subsection{Primary Outcome or Scoring Procedure}
+
+\placeholder{Describe the central dependent measure, rating pipeline, extraction logic, or synthesis rule used in the study.}
+
+\subsection{Statistical Analysis}
+
+\subsubsection{Primary Model}
+
+\placeholder{Document the main inferential model, outcomes, predictors, and thresholds.}
+
+\subsubsection{Grouping or Clustering Strategy}
+
+\placeholder{Describe any grouping, clustering, categorization, or stratification procedure.}
+
+\subsubsection{Resampling or Confidence Intervals}
+
+\placeholder{Specify bootstrap, cross-validation, confidence interval logic, or uncertainty estimation.}
+
+\subsubsection{Permutation or Sensitivity Tests}
+
+\placeholder{Describe label shuffling, robustness checks, negative controls, or alternative specifications.}
+
+\subsubsection{Supplementary Analyses}
+
+\placeholder{List the extra exploratory or robustness analyses that support the primary results.}
+
+\subsection{Code and Data Availability}
+
+\placeholder{State where code, data, preregistration, and supporting assets will be archived or shared.}
+
+\section{Results}
+
+\subsection{Structure of the Research Space}
+
+\placeholder{Summarize the first high-level descriptive result: composition, counts, map, taxonomy, corpus, sample, or framework structure.}
+
+\begin{figure}[tb]
+  \raggedright
+  \caption{[Main Figure 1 Placeholder]}
+  \label{fig:main1}
+  \includegraphics[width=0.92\textwidth]{../assets/figures/fig1_framework_overview.pdf}
+  \fignote{Replace this note with the explanatory note for your first main figure. Keep the note style if you want the same visual layout.}
+\end{figure}
+
+\subsection{Landscape and Group Profiles}
+
+\placeholder{Describe the main structure in the latent space, map, sample segmentation, or grouped profile landscape.}
+
+\begin{figure}[tb]
+  \raggedright
+  \caption{[Main Figure 2 Placeholder]}
+  \label{fig:main2}
+  \includegraphics[width=\textwidth]{../assets/figures/fig2_landscape.pdf}
+  \fignote{Use this slot for the second main figure. The width and caption positioning match the source paper layout.}
+\end{figure}
+
+\subsection{Distribution and RQ1}
+
+\placeholder{Report the overall distributional pattern that addresses the first research question.}
+
+\begin{figure}[tb]
+  \raggedright
+  \caption{[Main Figure 3 Placeholder]}
+  \label{fig:main3}
+  \includegraphics[width=\textwidth]{../assets/figures/fig3_primary_heatmap.pdf}
+  \fignote{Use this position for a matrix, heatmap, comparison grid, or other central results display.}
+\end{figure}
+
+\subsection{Primary Drivers and RQ2 and RQ4}
+
+\placeholder{Report the primary inferential findings, including direction, uncertainty, and practical interpretation.}
+
+\begin{table}[tb]
+  \raggedright
+  \small
+  \caption{[Primary Table Placeholder]}
+  \label{tab:primary_model}
+  \resizebox{\textwidth}{!}{\input{../assets/tables/table3_model_results.tex}}
+  \tabnote{Replace this note with the interpretation of the model table.}
+\end{table}
+
+\subsection{Group-Level Profiles and RQ3}
+
+\placeholder{Describe how groups, clusters, strata, or categories differ on the main outcome.}
+
+\subsection{Variance Structure, Latent Factors, and Network}
+
+\placeholder{Summarize decomposition, factor, network, or structure-discovery results if applicable.}
+
+\begin{figure}[tb]
+  \raggedright
+  \caption{[Main Figure 4 Placeholder]}
+  \label{fig:main4}
+  \includegraphics[width=\textwidth]{../assets/figures/fig4_network_or_structure.pdf}
+  \fignote{This slot mirrors the last main figure position in the source paper.}
+\end{figure}
+
+\subsection{Validation or Convergence}
+
+\placeholder{Report validation, convergence, inter-method agreement, ablation, or benchmark comparison results.}
+
+\section{Discussion}
+
+\subsection{Main Theoretical Interpretation}
+
+\placeholder{Interpret the headline finding in relation to the theoretical framing from the introduction.}
+
+\subsection{Protective or Moderating Factor}
+
+\placeholder{Explain the strongest attenuating, moderating, or boundary-condition result.}
+
+\subsection{Counterintuitive Pattern or Negative Finding}
+
+\placeholder{Discuss a result that did not behave as expected and explain its implications.}
+
+\subsection{Group-Specific Profiles and Practical Implications}
+
+\placeholder{Translate the differentiated results into intervention, design, policy, or applied implications.}
+
+\subsection{Scientific and Practical Value of the Approach}
+
+\placeholder{Explain the value of the dataset, framework, scoring design, or broader methodological contribution.}
+
+\subsection{Limitations}
+
+\placeholder{List the most important validity constraints, assumptions, and external limitations.}
+
+\subsection{Future Directions}
+
+\placeholder{Explain the most defensible next-step studies or extensions.}
+
+\section{Conclusion}
+
+\placeholder{End with a tight summary of the contribution, core result, and why it matters.}
+
+\clearpage
+\bibliographystyle{apalike}
+\bibliography{other/references}
+
+\clearpage
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{table}{0}
+\renewcommand{\thetable}{S\arabic{table}}
+
+\section*{Supplementary Materials}
+
+\subsection*{Supplementary Figures}
+
+\begin{figure}[!htb]
+  \raggedright
+  \caption{[Supplementary Figure S1 Placeholder]}
+  \label{fig:s1}
+  \includegraphics[width=0.95\textwidth]{../assets/figures/figS1_workflow.pdf}
+  \fignote{Use this slot for workflow, screening, review logic, or study process figures.}
+\end{figure}
+
+\begin{figure}[!htb]
+  \raggedright
+  \caption{[Supplementary Figure S2 Placeholder]}
+  \label{fig:s2}
+  \includegraphics[width=\textwidth]{../assets/figures/figS2_full_matrix.pdf}
+  \fignote{Use this slot for a full matrix, expanded view, or diagnostic overview.}
+\end{figure}
+
+\begin{figure}[p]
+  \raggedright
+  \caption{[Supplementary Figure S3 Placeholder]}
+  \label{fig:s3}
+  \includegraphics[width=\textwidth]{../assets/figures/figS3_component_map.pdf}
+  \fignote{Use this slot for component maps, facet views, or dimensional diagnostics.}
+\end{figure}
+
+\begin{figure}[!t]
+  \raggedright
+  \caption{[Supplementary Figure S4 Placeholder]}
+  \label{fig:s4}
+  \includegraphics[width=\textwidth]{../assets/figures/figS4_pca_or_latent_space.pdf}
+  \fignote{Use this slot for PCA, embeddings, reduced-space diagnostics, or latent geometry plots.}
+\end{figure}
+
+\begin{figure}[!t]
+  \raggedright
+  \caption{[Supplementary Figure S5 Placeholder]}
+  \label{fig:s5}
+  \includegraphics[width=\textwidth]{../assets/figures/figS5_cluster_diagnostics.pdf}
+  \fignote{Use this slot for cluster validation or model-selection diagnostics.}
+\end{figure}
+
+\clearpage
+\begin{figure}[!t]
+  \raggedright
+  \caption{[Supplementary Figure S6 Placeholder]}
+  \label{fig:s6}
+  \includegraphics[width=\textwidth]{../assets/figures/figS6_similarity_structure.pdf}
+  \fignote{Use this slot for similarity, factor, or structure-recovery diagnostics.}
+\end{figure}
+
+\begin{figure}[!t]
+  \raggedright
+  \caption{[Supplementary Figure S7 Placeholder]}
+  \label{fig:s7}
+  \includegraphics[width=\textwidth]{../assets/figures/figS7_validation.pdf}
+  \fignote{Use this slot for validation scatterplots, agreement analysis, or benchmark comparison.}
+\end{figure}
+
+\begin{figure}[!t]
+  \raggedright
+  \caption{[Supplementary Figure S8 Placeholder]}
+  \label{fig:s8}
+  \includegraphics[width=\textwidth]{../assets/figures/figS8_non_additivity_or_robustness.pdf}
+  \fignote{Use this slot for robustness, non-additivity, or higher-order diagnostic results.}
+\end{figure}
+
+\clearpage
+\begin{figure}[!t]
+  \raggedright
+  \caption{[Supplementary Figure S9 Placeholder]}
+  \label{fig:s9}
+  \includegraphics[width=\textwidth]{../assets/figures/figS9_combined_panels.pdf}
+  \fignote{Use this slot for multi-panel summary diagnostics.}
+\end{figure}
+
+\begin{figure}[!t]
+  \raggedright
+  \caption{[Supplementary Figure S10 Placeholder]}
+  \label{fig:s10}
+  \includegraphics[width=\textwidth]{../assets/figures/figS10_profiles.pdf}
+  \fignote{Use this slot for within-group profiles, distributions, or response-pattern summaries.}
+\end{figure}
+
+\subsection*{Supplementary Tables}
+
+\begin{table}[H]
+  \raggedright
+  \small
+  \caption{[Supplementary Table S1 Placeholder]}
+  \label{tab:s1}
+  \resizebox{\textwidth}{!}{\input{../assets/tables/table1_summary.tex}}
+  \tabnote{Replace with the summary table note.}
+\end{table}
+
+\begin{table}[htb]
+  \raggedright
+  \small
+  \caption{[Supplementary Table S2 Placeholder]}
+  \label{tab:s2}
+  \resizebox{\textwidth}{!}{\input{../assets/tables/table2_key_rows.tex}}
+  \tabnote{Replace with the note for ranked or key-row results.}
+\end{table}
+
+\begin{table}[htb]
+  \raggedright
+  \small
+  \caption{[Supplementary Table S3 Placeholder]}
+  \label{tab:s3}
+  \resizebox{\textwidth}{!}{\input{../assets/tables/tableS3_regression_detail.tex}}
+  \tabnote{Replace with the note for detailed coefficients or per-group models.}
+\end{table}
+
+\begin{table}[htb]
+  \raggedright
+  \small
+  \caption{[Supplementary Table S4 Placeholder]}
+  \label{tab:s4}
+  \resizebox{\textwidth}{!}{\input{../assets/tables/tableS4_group_matrix.tex}}
+  \tabnote{Replace with the note for the group-level matrix or comparison table.}
+\end{table}
+
+\begin{table}[htb]
+  \raggedright
+  \small
+  \caption{[Supplementary Table S5 Placeholder]}
+  \label{tab:s5}
+  \resizebox{\textwidth}{!}{\input{../assets/tables/tableS5_group_profiles.tex}}
+  \tabnote{Replace with the note for profile summaries and representative examples.}
+\end{table}
+
+\clearpage
+\begingroup
+\small
+\raggedright
+\input{../assets/tables/tableS6_inventory.tex}
+\endgroup
+\tabnote{Use this slot for a long inventory-style supplementary table.}
+
+\clearpage
+\begingroup
+\footnotesize
+\raggedright
+\input{../assets/tables/tableS7_measurement_lexicon.tex}
+\endgroup
+\tabnote{Use this slot for a long measurement, lexicon, coding, or feature-inventory table.}
+
+\clearpage
+\begin{table}[H]
+  \raggedright
+  \small
+  \caption{[Supplementary Table S8 Placeholder]}
+  \label{tab:s8}
+  \resizebox{\textwidth}{!}{\input{../assets/tables/tableS8_weights_or_loadings.tex}}
+  \tabnote{Replace with the note for weights, loadings, sensitivity values, or component summaries.}
+\end{table}
+
+\begingroup
+\small
+\raggedright
+\input{../assets/tables/tableS9_full_leaf_inventory.tex}
+\endgroup
+\tabnote{Use this slot for a final long-table inventory or appendix listing.}
+
+\end{document}

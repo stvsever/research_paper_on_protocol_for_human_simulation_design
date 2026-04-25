@@ -1,0 +1,11 @@
+target_mmlu,selected_model,openrouter_model_id,documented_mmlu,absolute_difference,primary_source,selection_rule,notes
+0.35,Liquid LFM 2.5 1.2B Instruct,liquid/lfm-2.5-1.2b-instruct:free,TBD,TBD,Liquid AI published model card (confirm before pilot execution),nearest_available_model,"MMLU estimated ~0.35 from Liquid AI LFM-1.x published benchmarks. Must be confirmed from published Liquid AI model card before pilot execution. Fallback: if no model with documented MMLU ≤ 0.43 is available, replace with meta-llama/llama-3.2-1b-instruct and log deviation with range-restriction sensitivity analysis."
+0.49,Meta Llama 3.2 1B Instruct,meta-llama/llama-3.2-1b-instruct,0.493,0.003,Meta Llama 3.2 model card,nearest_available_model,Verified available OpenRouter 2026-04-25
+0.63,Meta Llama 3.2 3B Instruct,meta-llama/llama-3.2-3b-instruct,0.634,0.004,Meta Llama 3.2 model card,nearest_available_model,Verified available OpenRouter 2026-04-25
+0.73,Meta Llama 3.1 8B Instruct,meta-llama/llama-3.1-8b-instruct,0.730,0.000,Meta Llama 3.1 published benchmarks,nearest_available_model,Verified available OpenRouter 2026-04-25
+0.75,Google Gemma 2 27B,google/gemma-2-27b-it,0.752,0.002,LM Market Cap benchmark table,nearest_available_model,Verified available OpenRouter 2026-04-25
+0.82,OpenAI GPT-4o mini,openai/gpt-4o-mini,0.820,0.000,LM Market Cap benchmark table,nearest_available_model,Verified available OpenRouter 2026-04-25
+0.85,Microsoft Phi-4,microsoft/phi-4,0.848,0.002,Microsoft Phi-4 published benchmarks,nearest_available_model,Verified available OpenRouter 2026-04-25; 14B parameter dense model
+0.86,Meta Llama 3.3 70B Instruct,meta-llama/llama-3.3-70b-instruct,0.860,0.000,Meta Llama 3.3 published benchmarks,nearest_available_model,Verified available OpenRouter 2026-04-25
+0.88,OpenAI GPT-4o,openai/gpt-4o,0.887,0.007,LM Market Cap benchmark table,nearest_available_model,Verified available OpenRouter 2026-04-25; use openai/gpt-4o-2024-11-20 if date-stamped snapshot preferred
+0.93,OpenAI GPT-5,openai/gpt-5,0.930,0.000,LM Market Cap benchmark table,nearest_available_model,Verified available OpenRouter 2026-04-25 via /api/v1/models endpoint

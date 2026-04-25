@@ -1,0 +1,19 @@
+study:
+  title: "[Study Title]"
+  preregistration_status: "[planned | draft | registered]"
+  primary_question: "[Primary research question]"
+
+data_sources:
+  source_a: "[Describe source]"
+  source_b: "[Describe source]"
+
+analysis:
+  primary_model: "[Primary analysis]"
+  robustness_checks:
+    - "[Robustness check 1]"
+    - "[Robustness check 2]"
+
+reporting:
+  main_figures: 4
+  supplementary_figures: 10
+  supplementary_tables: 9

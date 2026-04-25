@@ -221,11 +221,11 @@ make paper
 ```mermaid
 flowchart TD
     A["🗂 Ontology Build\nbuild_ontology.py\n──────────────────\n1,149 leaves · 211 groups · 44 constraints"]
-    B["🎲 Configuration Sampling\nsample_configurations.py\n──────────────────\nStratified draw · constraint-satisfaction filter\n60 / 20 / 20 train / val / test split"]
+    B["🎲 Configuration Sampling\nsample_configurations.py\n──────────────────\nStratified draw · constraint-satisfaction filter"]
     C["🧪 Pilot Execution\n──────────────────\n10 MMLU tiers × 2 critic-actor × 2 conditioning depth\n= 40 cells per dataset task"]
     D["⚙️ Full Generation Loop\n──────────────────\nEligible configs × 8 benchmark datasets\nSilicon responses via OpenRouter API"]
     E["📐 Fidelity Metric Computation\n──────────────────\nSHFS = clip((S_config − S_null) / (S_ceiling − S_null), 0, 1)\nPer configuration × dataset × task cell"]
-    F["🧮 ML Feature Matrix\n──────────────────\nOntology leaf indicators + continuous MMLU + dataset descriptors\nBranch-first encoding · VIF / SVD collinearity handling"]
+    F["🧮 ML Feature Matrix & Data Splits\n──────────────────\nOntology leaf indicators + continuous MMLU + dataset descriptors\nBranch-first encoding · VIF / SVD collinearity handling\n\n60% train / 20% validation / 20% test (grouped by config ID)\nGrouped k-fold CV within training set for hyperparameter tuning\nLeave-one-dataset-family-out CV for robustness"]
     G1["📊 OLS / WLS\nPartial R² · clustered SEs\nCook's D · Holm-Bonferroni"]
     G2["🌲 XGBoost + TreeSHAP\nGrouped branch importance\nSHAP dependence · bootstrap stability"]
     H["📋 Protocol Derivation\n──────────────────\nEvidence table → 4-layer protocol\nUniversal core · domain-conditional · cost-tiered · decision tree\nValidated on held-out configs + held-out dataset families"]

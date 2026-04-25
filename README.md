@@ -2,7 +2,7 @@
 
 # A Data-Driven Protocol for LLM-Based Simulation of Human Behavior
 
-### An ontology-based, multi-dataset empirical study of silicon-human fidelity determinants
+### An ontology-grounded, multi-dataset empirical study of silicon-human fidelity determinants
 
 **Stijn Van Severen**
 *Ghent University, Ghent, Belgium*

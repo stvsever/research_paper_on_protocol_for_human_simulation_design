@@ -19,6 +19,7 @@
 ## 📋 Table of Contents
 
 - [📝 Abstract](#-abstract)
+- [📊 Methodology Overview](#-methodology-overview)
 - [🔑 Primary Results at a Glance](#-primary-results-at-a-glance)
 - [📌 Key Anticipated Contributions](#-key-anticipated-contributions)
 - [📄 Full Paper](#-full-paper)
@@ -38,6 +39,23 @@
 Large language models (LLMs) are increasingly used to simulate human behavioral data (so-called *silicon* respondents), yet researchers face hundreds of undocumented design choices that may substantially affect whether generated data resembles real human responses. This study introduces a machine-readable, 1,149-leaf ontology of LLM simulation design dimensions, encodes the full combinatorial state space of eligible design configurations, and uses a preregistered multi-dataset empirical protocol to estimate which choices explain the largest variance in silicon-human fidelity. A stratified sample of eligible configurations will be applied to a diverse pool of open-access human datasets spanning individual differences, implicit social cognition, political behavior, general social attitudes, cross-cultural values, moral dilemma choice, and trial-by-trial cognition. For each configuration-dataset cell, a standardized silicon-human fidelity score (SHFS) is computed from task-appropriate metrics and normalized against null baselines and human reliability ceilings. Two complementary machine-learning models (a transparent OLS/WLS linear model with explicit collinearity handling and an XGBoost model with TreeSHAP explanations) then identify stable, generalizable design features that predict fidelity across datasets and outcome types. From these analyses, a protocol for selecting, validating, and reporting LLM-based simulators of human behavioral data is empirically derived.
 
 > **Status:** Pre-execution. Preregistration complete; pilot execution pending.
+
+## 📊 Methodology Overview
+
+![Methodology flowchart: 8-stage pipeline from ontology to protocol derivation](src/preregistration/assets/figures/methodology_overview.png)
+
+### Study Pipeline at a Glance
+
+| Stage | Purpose | Key Input → Output |
+|---|---|---|
+| **1. Design Space Ontology** | Define all possible simulation design dimensions and their compatibility rules | Machine-readable ontology: 1,149 design choices, 44 hard constraints |
+| **2. Configuration Sampling** | Draw a stratified random sample of eligible configurations from the ontology | Constraint-satisfaction filter → ~100–200 valid configurations |
+| **3. Human Benchmark Pool** | Assemble diverse open-access datasets for fidelity comparison | 8 datasets across 7 behavioral domains (AIID, Race IAT, ANES, GSS, ESS, WVS, Moral Machine, Psych-101) |
+| **4. Cross-product Generation** | Generate silicon responses for each configuration × dataset × task cell via LLM API | Pilot: 10 MMLU tiers × 2 critic-actor conditions × 2 conditioning depths = 40 cells/task |
+| **5. SHFS Computation** | Compute standardized silicon-human fidelity score per cell, normalized against null and ceiling | SHFS = clip((S_config − S_null) / (S_ceiling − S_null), 0, 1) |
+| **6. ML Feature Matrix** | Encode configurations as feature vectors; split into train (60%) / validation (20%) / test (20%) | Ontology leaf indicators + continuous MMLU + dataset descriptors; grouped k-fold CV for hyperparameter tuning |
+| **7. Dual ML Analysis** | Fit transparent OLS/WLS and nonlinear XGBoost+TreeSHAP models to identify design feature importance | Convergence check: both models agree on high-importance design features |
+| **8. Protocol Derivation** | Construct an empirically validated 4-layer protocol (universal core, domain-conditional, cost-tiered, decision tree) | Protocol tested on held-out configurations and held-out dataset families; requires ≥ 0.05 SHFS gain over baseline |
 
 ---
 

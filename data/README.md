@@ -1,52 +1,52 @@
-# Data Staging Area
+# Data
 
-This directory stages raw source files and source-retrieval notes for the preregistered study:
+All files under `data/raw/` are **excluded from this repository** — they are either too large for version control, governed by source-specific data-use terms that prohibit redistribution, or both. This README documents what is needed, where to get it, and where to place it.
 
-`Which design choices make LLM-generated human behavioral data more valid?`
+Preprocessed files will live under `data/interim/` (task-specific, generated). Locked analysis-ready files will live under `data/processed/` (generated). Neither is versioned.
 
-The goal at this stage is not to preprocess the data, but to make source status explicit before the pilot and full sampling loops begin. Raw source files are kept under `data/raw/`; cleaned task-specific files should later be written to `data/interim/` and locked analysis-ready files to `data/processed/`.
+---
 
-## Current Structure
+## Required Datasets
 
-| Path | Purpose |
-| --- | --- |
-| `data/raw/aiid/` | AIID OSF confirmatory subset and source notes. |
-| `data/raw/project_implicit_demo/race_iat/` | Project Implicit Race IAT 2025 raw archive and codebooks. |
-| `data/raw/anes_cdf/` | ANES cumulative-file documentation; data file requires manual retrieval. |
-| `data/raw/gss/` | GSS documentation; data file requires manual retrieval or extraction. |
-| `data/raw/ess/` | ESS source metadata; raw Zenodo file currently requires browser/manual retrieval because direct curl returned 403. |
-| `data/raw/wvs/` | WVS retrieval notes; raw data requires site-mediated download/registration. |
-| `data/raw/moral_machine/` | Moral Machine documentation and small country-level archives; full response files are too large for automatic download here. |
-| `data/raw/psych101_centaur/` | Psych-101/Centaur Hugging Face dataset card; full prompt/response file is large and should be pulled intentionally. |
-| `data/raw/model_benchmarks/` | Frozen pilot MMLU target-to-model mapping and OpenRouter validation notes. |
-| `data/sources_manifest.json` | Machine-readable source manifest with domain, DOI where available, and retrieval status. |
+| Dataset | Domain | Where to retrieve | Target path |
+|---|---|---|---|
+| AIID confirmatory subset | Individual differences, explicit/implicit attitudes | [OSF project osf.io/pcjwf](https://osf.io/pcjwf/) — download `AIID_subset_confirmatory.csv.zip` | `data/raw/aiid/` |
+| Project Implicit Race IAT 2025 | Implicit cognition, intergroup bias | [OSF osf.io/52qxl](https://osf.io/52qxl/) — download archive and codebooks | `data/raw/project_implicit_demo/race_iat/` |
+| ANES Time Series Cumulative File | Political behavior, elections | [electionstudies.org](https://electionstudies.org/data-center/anes-time-series-cumulative-data-file/) — requires free registration | `data/raw/anes_cdf/` |
+| General Social Survey | US social attitudes | [gss.norc.org](https://gss.norc.org/content/norc/us/en/gss/get-the-data.html) — requires free registration | `data/raw/gss/` |
+| European Social Survey rounds 1–11 | Cross-national European attitudes | Zenodo DOI [10.5281/zenodo.12799641](https://doi.org/10.5281/zenodo.12799641) — browser download required (direct curl returns 403) | `data/raw/ess/` |
+| World Values Survey Wave 7 | Global values and culture | [worldvaluessurvey.org](https://www.worldvaluessurvey.org/WVSDocumentationWV7.jsp) — requires WVSA terms acceptance | `data/raw/wvs/` |
+| Moral Machine | Moral dilemmas, cross-cultural ethics | [osf.io/3hvt2](https://osf.io/3hvt2/) — large files; download only if needed for confirmatory analysis | `data/raw/moral_machine/` |
+| Psych-101 / Centaur | Trial-by-trial cognition | Hugging Face `marcelbinz/psych-101` — pull intentionally via `datasets` or `huggingface_hub`; primary file is large | `data/raw/psych101_centaur/` |
 
-## Files Downloaded Automatically
+---
 
-The following files were downloaded on 2026-04-25:
+## Model Benchmark Reference
 
-| Source | Downloaded files |
-| --- | --- |
-| AIID | `AIID_subset_confirmatory.csv.zip`, `README.md` |
-| Project Implicit Race IAT | `Race_IAT.public.2025.csv.zip`, `Race_IAT.public.2025.codebook.csv`, `Race_IAT_public_2002-2025_codebook.xlsx`, `readme.2025.txt` |
-| ANES | `anes_timeseries_cdf_codebook_var_20260205.pdf` |
-| GSS | `GSS_2024_Codebook_R2.pdf` |
-| ESS | `zenodo_12799641_metadata.json` |
-| Moral Machine | `MMdata_ReadMe.txt`, `country_cluster_map.csv.zip`, `moral_distance.csv.zip`, `CountriesChangePr.csv.tar.gz` |
-| Psych-101/Centaur | `README.md` |
-| Model benchmarks | `mmlu_pilot_model_mapping.csv`, `openrouter_validation_2026-04-25.md` |
+The frozen pilot model-to-MMLU mapping is stored in the repository at:
 
-## Manual or Intentional Retrieval Still Needed
+```
+data/raw/model_benchmarks/mmlu_pilot_model_mapping.csv
+```
 
-These sources need either authenticated/manual download, explicit acceptance of terms, or a deliberate large-file pull:
+> **Note:** This file is not in the repository either — retrieve it from the `src/ontologies/` context or reconstruct from the preregistration (Section 24.1).
 
-1. ANES cumulative raw data file: download from the ANES data center and place the raw file in `data/raw/anes_cdf/`.
-2. GSS cumulative raw data: retrieve from GSS Data Explorer or the official GSS/NORC download interface and place it in `data/raw/gss/`.
-3. ESS merged data: the Zenodo metadata is present, but direct command-line download returned HTTP 403. Use the Zenodo browser download for DOI `10.5281/zenodo.12799641` and place the `.dta` file in `data/raw/ess/`.
-4. WVS raw data: retrieve the WVS Wave 7 or time-series dataset after accepting WVSA terms and place it in `data/raw/wvs/`.
-5. Moral Machine full response data: the large individual-level response files should be downloaded only if needed for confirmatory analysis, because they are hundreds of MB to multiple GB.
-6. Psych-101 full data: pull the Hugging Face dataset intentionally using `datasets` or `huggingface_hub` because the primary prompt file is large.
-7. Additional Project Implicit domains: only Race IAT 2025 was staged automatically. Other Project Implicit domains should be added as separate subdirectories if included.
+---
+
+## Size and License Notes
+
+| Dataset | Approx. size | License / terms |
+|---|---|---|
+| AIID subset | ~39 MB (zip) | CC-BY 4.0 |
+| Race IAT 2025 | ~71 MB (zip) | Project Implicit data-use agreement |
+| ANES | ~50–200 MB | Free for non-commercial research |
+| GSS | ~50–300 MB | Free for non-commercial research |
+| ESS | ~100–500 MB | CC-BY 4.0 |
+| WVS Wave 7 | ~50–100 MB | WVSA non-commercial research terms |
+| Moral Machine (full) | Several GB | See Nature article and OSF notes |
+| Psych-101 (full) | Several GB | See Hugging Face dataset card |
+
+---
 
 ## Preprocessing Policy
 
@@ -54,7 +54,6 @@ Before any LLM call or confirmatory scoring:
 
 1. Review each source license and data-use terms.
 2. Remove direct identifiers and suppress rare identifying combinations.
-3. Create deterministic task manifests documenting outcome variables, predictors, split seeds, weights, recodes, missingness rules, and excluded variables.
-4. Store raw data unchanged under `data/raw/`; write derived files only under `data/interim/` or `data/processed/`.
-5. Do not place API keys, credentials, private notes, or account metadata in this directory.
-
+3. Create deterministic task manifests (outcome variables, predictors, split seeds, weights, recodes, missingness rules).
+4. Store raw data unchanged under `data/raw/`; write derived files only to `data/interim/` or `data/processed/`.
+5. Do not place API keys, credentials, or private notes in this directory.

@@ -45,23 +45,11 @@ Thumbs.db
 .tools/
 .cargo-tools/
 
-# Raw data files (retrieve manually per data/README.md)
-data/raw/**/*.zip
-data/raw/**/*.tar.gz
-data/raw/**/*.pdf
-data/raw/**/*.xlsx
-data/raw/**/*.csv
-data/raw/**/*.dta
-data/raw/**/*.sav
-data/raw/**/*.json
-data/raw/**/*.txt
-# Keep source notes, gitkeeps, and small reference CSVs
-!data/raw/**/SOURCE.md
-!data/raw/**/README.md
-!data/raw/**/*.md
-!data/raw/model_benchmarks/mmlu_pilot_model_mapping.csv
+# All raw data — not versioned; retrieve manually per data/README.md
+data/raw/
+data/sources_manifest.json
 
-# Generated / processed data (not versioned)
+# Generated / processed data
 data/interim/*
 data/processed/*
 !data/interim/.gitkeep

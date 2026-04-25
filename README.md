@@ -104,22 +104,6 @@ research_paper_on_synthetic_generation_design/
 ├── docker/
 │   ├── docker-compose.yml               # compose service for workflow execution
 │   └── Dockerfile                       # image definition
-├── data/
-│   ├── README.md                        # data staging guide and manual retrieval checklist
-│   ├── sources_manifest.json            # machine-readable source status and DOIs
-│   ├── raw/
-│   │   ├── aiid/                        # AIID confirmatory subset + source notes
-│   │   ├── project_implicit_demo/
-│   │   │   └── race_iat/                # Race IAT 2025 archive and codebooks
-│   │   ├── anes_cdf/                    # ANES codebook; raw data: manual retrieval
-│   │   ├── gss/                         # GSS codebook; raw data: manual retrieval
-│   │   ├── ess/                         # ESS Zenodo metadata; raw data: browser download
-│   │   ├── wvs/                         # WVS retrieval notes; raw data: manual
-│   │   ├── moral_machine/               # Moral Machine docs + auxiliary files
-│   │   ├── psych101_centaur/            # Psych-101/Centaur dataset card
-│   │   └── model_benchmarks/            # Frozen MMLU pilot mapping + OpenRouter validation
-│   ├── interim/                         # preprocessed task-specific files (generated)
-│   └── processed/                       # locked analysis-ready files (generated)
 ├── paper/
 │   ├── assets/
 │   │   ├── figures/                     # publication figures (generated)
@@ -129,6 +113,22 @@ research_paper_on_synthetic_generation_design/
 │       ├── main.pdf                     # compiled output
 │       └── other/references.bib         # bibliography
 └── src/
+    ├── data/
+    │   ├── README.md                    # data staging guide and manual retrieval checklist
+    │   ├── sources_manifest.json        # machine-readable source status and DOIs
+    │   ├── raw/
+    │   │   ├── aiid/                    # AIID confirmatory subset + source notes
+    │   │   ├── project_implicit_demo/
+    │   │   │   └── race_iat/            # Race IAT 2025 archive and codebooks
+    │   │   ├── anes_cdf/                # ANES codebook; raw data: manual retrieval
+    │   │   ├── gss/                     # GSS codebook; raw data: manual retrieval
+    │   │   ├── ess/                     # ESS Zenodo metadata; raw data: browser download
+    │   │   ├── wvs/                     # WVS retrieval notes; raw data: manual
+    │   │   ├── moral_machine/           # Moral Machine docs + auxiliary files
+    │   │   ├── psych101_centaur/        # Psych-101/Centaur dataset card
+    │   │   └── model_benchmarks/        # Frozen MMLU pilot mapping + OpenRouter validation
+    │   ├── interim/                     # preprocessed task-specific files (generated)
+    │   └── processed/                   # locked analysis-ready files (generated)
     ├── ontologies/
     │   ├── README.md                    # ontology schema documentation
     │   ├── build_ontology.py            # declarative source-of-truth builder
@@ -256,8 +256,8 @@ flowchart TD
 | `src/ontologies/samples/eligible_samples.txt` | Example eligible configuration sample |
 | `src/preregistration/osf/osf_preregistration.md` | Full preregistration document (upload to OSF) |
 | `src/preregistration/deviations.md` | Deviation log (update before any confirmatory analysis) |
-| `data/raw/model_benchmarks/mmlu_pilot_model_mapping.csv` | Frozen 10-tier MMLU pilot model mapping |
-| `data/sources_manifest.json` | Machine-readable dataset source status |
+| `src/data/raw/model_benchmarks/mmlu_pilot_model_mapping.csv` | Frozen 10-tier MMLU pilot model mapping |
+| `src/data/sources_manifest.json` | Machine-readable dataset source status |
 | `paper/report/main.pdf` | Compiled manuscript |
 | `paper/assets/figures/` | Exported publication figures |
 | `paper/assets/tables/` | Manuscript-ready LaTeX tables |
@@ -272,7 +272,7 @@ The simulation design space is encoded in `src/ontologies/ontology.json` as 18 t
 
 ### Dataset Pool
 
-The study uses eight open-access human behavioral datasets spanning seven prediction-context families. For detailed data-staging status, source URLs, DOIs, and manual retrieval instructions see [`data/README.md`](data/README.md).
+The study uses eight open-access human behavioral datasets spanning seven prediction-context families. For detailed data-staging status, source URLs, DOIs, and manual retrieval instructions see [`src/data/README.md`](src/data/README.md).
 
 | Dataset | Domain | Data status |
 |---|---|---|
@@ -293,7 +293,7 @@ The preregistered pilot varies three factors:
 2. **Critic-actor realism auditing:** absent vs. present (rubric-based, `max_iter = 1`).
 3. **Conditioning depth:** minimal vs. full observed non-identifying conditioning.
 
-**→ 10 × 2 × 2 = 40 pilot design cells per dataset task.** All 10 model IDs confirmed available via the OpenRouter API on 2026-04-25. See [`data/raw/model_benchmarks/mmlu_pilot_model_mapping.csv`](data/raw/model_benchmarks/mmlu_pilot_model_mapping.csv) for the frozen mapping and MMLU sources.
+**→ 10 × 2 × 2 = 40 pilot design cells per dataset task.** All 10 model IDs confirmed available via the OpenRouter API on 2026-04-25. See [`src/data/raw/model_benchmarks/mmlu_pilot_model_mapping.csv`](src/data/raw/model_benchmarks/mmlu_pilot_model_mapping.csv) for the frozen mapping and MMLU sources.
 
 ### Outcome Metric
 
@@ -338,4 +338,4 @@ Any change after preregistration that affects sampling, datasets, metrics, model
 
 ## ⚖️ License
 
-The repository scaffold and ontology code are released under the [MIT License](LICENSE). Dataset files remain governed by their original source licenses and data-use terms. See [`data/README.md`](data/README.md) for per-source licensing notes.
+The repository scaffold and ontology code are released under the [MIT License](LICENSE). Dataset files remain governed by their original source licenses and data-use terms. See [`src/data/README.md`](src/data/README.md) for per-source licensing notes.

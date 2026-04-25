@@ -311,7 +311,7 @@ Two preregistered ML approaches estimate which design features drive SHFS:
 
 | Model | Role | Collinearity handling | Inference |
 |---|---|---|---|
-| OLS/WLS with branch-first estimation | Transparent direction + effect size | QR/SVD rank check, VIF > 10 / CI > 30 collapsing, Holm-Bonferroni for interactions, Cook's D diagnostics | Partial R², clustered SEs (Cameron & Miller 2015), commonality decomposition |
+| OLS/WLS with branch-first estimation | Transparent direction + effect size | QR/SVD rank check, VIF > 10 / CI > 30 collapsing, Holm-Bonferroni for interactions, Cook's D diagnostics | Partial R², clustered SEs, commonality decomposition |
 | XGBoost + TreeSHAP | Nonlinear importance, interaction capture | Same feature preprocessing as OLS | Mean absolute SHAP by ontology branch, interaction values, bootstrap stability |
 
 ### Deviations

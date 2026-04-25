@@ -218,22 +218,25 @@ make paper
 
 ## 🧬 Pipeline Overview
 
-```text
-[Ontology Build]   build_ontology.py → ontology.json
-       ↓
-[Configuration Sampling]  sample_configurations.py → eligible_samples.txt
-       ↓
-[Pilot Execution]  10 MMLU levels × 2 critic-actor × 2 conditioning = 40 cells/task
-       ↓
-[Full Generation Loop]  stratified sample over full ontology × dataset pool
-       ↓
-[Metric Computation]  SHFS per configuration-dataset-task cell
-       ↓
-[ML Feature Matrix]  OLS/WLS + XGBoost + SHAP → feature importance
-       ↓
-[Protocol Derivation]  evidence table → decision-tree protocol → held-out validation
-       ↓
-[Manuscript]  paper/report/main.tex → main.pdf
+```mermaid
+flowchart TD
+    A["🗂 Ontology Build\nbuild_ontology.py\n──────────────────\n1,149 leaves · 211 groups · 44 constraints"]
+    B["🎲 Configuration Sampling\nsample_configurations.py\n──────────────────\nStratified draw · constraint-satisfaction filter\n60 / 20 / 20 train / val / test split"]
+    C["🧪 Pilot Execution\n──────────────────\n10 MMLU tiers × 2 critic-actor × 2 conditioning depth\n= 40 cells per dataset task"]
+    D["⚙️ Full Generation Loop\n──────────────────\nEligible configs × 8 benchmark datasets\nSilicon responses via OpenRouter API"]
+    E["📐 Fidelity Metric Computation\n──────────────────\nSHFS = clip((S_config − S_null) / (S_ceiling − S_null), 0, 1)\nPer configuration × dataset × task cell"]
+    F["🧮 ML Feature Matrix\n──────────────────\nOntology leaf indicators + continuous MMLU + dataset descriptors\nBranch-first encoding · VIF / SVD collinearity handling"]
+    G1["📊 OLS / WLS\nPartial R² · clustered SEs\nCook's D · Holm-Bonferroni"]
+    G2["🌲 XGBoost + TreeSHAP\nGrouped branch importance\nSHAP dependence · bootstrap stability"]
+    H["📋 Protocol Derivation\n──────────────────\nEvidence table → 4-layer protocol\nUniversal core · domain-conditional · cost-tiered · decision tree\nValidated on held-out configs + held-out dataset families"]
+    I["📄 Manuscript\npaper/report/main.tex → main.pdf"]
+
+    A --> B --> C --> D --> E --> F
+    F --> G1
+    F --> G2
+    G1 --> H
+    G2 --> H
+    H --> I
 ```
 
 ---

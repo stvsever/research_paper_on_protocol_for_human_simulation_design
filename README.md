@@ -81,7 +81,7 @@ An eight-stage pipeline applies a machine-readable ontology (1,149 design choice
 
 ## 🔐 Preregistration
 
-Full study preregistration is available in `src/preregistration/osf/osf_preregistration.md`. This document specifies:
+Full study preregistration is available in [`src/preregistration/osf/osf_preregistration.md`](src/preregistration/osf/osf_preregistration.md). This document specifies:
 - Pilot study design (§10): 40-cell factorial experiment (10 MMLU targets × 2 critic levels × 2 conditioning depths)
 - Three-stage configuration sampling strategy (§11): conventional-core, broad random, and targeted supplementary draws
 - Outcome variables and fidelity metrics (§12–16): silicon-human fidelity score (SHFS), dual ML models (OLS/WLS + XGBoost+TreeSHAP)

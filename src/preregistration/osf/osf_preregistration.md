@@ -564,8 +564,71 @@ Planned supplementary analyses:
 19. LASSO stability-selection path: report which ontology branch aggregates and leaf indicators remain non-zero as the LASSO penalty increases from near-zero to sparse, using the same training set and preprocessing as the primary OLS model. This provides a data-driven feature-importance ranking that is orthogonal to SHAP.
 20. XGBoost calibration check: compare predicted versus actual SHFS on the held-out test set using a calibration plot and report the calibration slope and intercept; over- or under-confidence in SHFS predictions will be reported as a limitation of the SHAP rankings.
 21. Semantic embedding cluster analysis: each benchmark item or item group will be represented as a concatenated text string (item wording + response options + dataset context descriptor) and embedded using a single frozen, non-fine-tuned text-embedding model applied uniformly across all datasets (e.g., OpenAI `text-embedding-3-large` or an equivalent open model). In the resulting high-dimensional embedding space, items are clustered using k-means (k selected via gap statistic, minimum k = 3, maximum k = 20) and hierarchical agglomerative clustering (Ward linkage; dendrogram truncated at 10 levels). SHFS values are then regressed on cluster membership as a categorical predictor, controlling for dataset-family and outcome mode fixed effects, to test whether semantically coherent item groups show systematically different fidelity profiles beyond what dataset-family labels capture. This analysis identifies cross-dataset fidelity zones—e.g., whether LLMs consistently underperform on morally ambiguous items or items with rare demographic conditioning—independent of the nominal dataset grouping. Results reported as: (a) 2D UMAP projections of item embeddings colored by SHFS; (b) cluster-level SHFS box plots; (c) partial R² of embedding-cluster membership in the primary OLS model; and (d) qualitative description of the three highest- and three lowest-SHFS semantic clusters.
-22. Training-data contamination sensitivity: several benchmark datasets are publicly available and may appear in LLM pre-training corpora, creating a risk that high SHFS reflects text memorization rather than generalizable behavioral simulation. A contamination-detection probe will compute model perplexity on held-out human response text versus shuffled-response baselines; systematic perplexity reduction on original text relative to shuffled text is flagged as a contamination indicator. Datasets flagged as potentially contaminated will be excluded in a sensitivity re-run of the primary ML analysis, and the change in top-ranked design features will be reported. Models with a documented pre-training cutoff will additionally be assessed by whether their cutoff pre-dates the public release of each dataset.
+22. Training-data contamination protocol: see §19.1 for the full preregistered detection pipeline, item-level risk scoring, corrected sampling, and reporting plan.
 23. Floor-reliability stratum analysis: all configuration-dataset-task cells excluded from primary SHFS due to degenerate baselines (§12) will be analyzed as a separate stratum. Descriptive statistics of their raw performance scores, parse failure rates, and outcome modes will be reported to document which task families are structurally resistant to silicon-human comparison under current reliability conditions.
+
+### 19.1 Training-Data Contamination Protocol
+
+This subsection fully preregisters the detection pipeline, item-level risk scoring, corrected sampling strategy, and reporting plan for training-data contamination. It applies to all benchmark datasets and all design variables where contamination could differentially inflate SHFS.
+
+**Background and threat model.** Several benchmark datasets used in this study (AIID, Project Implicit, GSS, ANES, ESS, WVS) are publicly available and were almost certainly indexed by major web crawls before the training cutoff of frontier models. If an LLM was exposed to exact item text, response option labels, or aggregate response distributions during pre-training, it may produce high SHFS by pattern-matching memorized data rather than through generalizable behavioral simulation. Critically, this threat is not uniform across design variables: prompt configurations that reproduce verbatim item text or demographic labels may elicit *more* memorized content than configurations using paraphrased or minimized prompts, potentially biasing the design-feature importance rankings even when contamination is acknowledged at the dataset level.
+
+**Stage 1 — Dataset-level contamination risk tier.** Before any LLM generation, each dataset-task is assigned a contamination risk tier based on two criteria: (a) whether the dataset's public release date predates the earliest training cutoff among all pilot models; and (b) whether the dataset content has known high web visibility (e.g., long-running public web survey, OSF-hosted file indexed by search engines).
+
+| Tier | Definition | Expected datasets |
+|---|---|---|
+| 0 — Clean | Released after the latest training cutoff among used models | Unlikely for any current dataset |
+| 1 — Low | Released ≤ 6 months before earliest training cutoff, or limited web visibility | Datasets released near cutoff dates |
+| 2 — Moderate | Released > 6 months before earliest cutoff, publicly downloadable but not widely cited in web text | WVS, ESS |
+| 3 — High | Widely web-indexed before all model training cutoffs AND associated with high-volume web text (e.g., blog posts, media coverage citing specific items) | GSS, ANES, Project Implicit, AIID |
+
+Tier assignment is determined before any generation run and locked in `src/data/sources_manifest.json`. Any disagreement between two independent assessors (author + one blinded assessor) is resolved by assigning the higher tier.
+
+**Stage 2 — Item-level contamination scoring.** For each benchmark item in Tier 2 and Tier 3 datasets, an item-level contamination score is computed using two complementary methods applied to every model where token log-probabilities are accessible (primarily open-weights models; closed-source models use a proxy open-weights model of similar training vintage as described below):
+
+*Method A — Min-K% probability probe (Shi et al., 2024).* For each item string (wording + response options concatenated), compute the average log-probability assigned to the K% least probable tokens. Items for which a model assigns anomalously high probability to the least-likely tokens—indicating the model has memorized the sequence—are flagged as potentially contaminated. The threshold K is set to 20% following Shi et al. (2024); sensitivity to K ∈ {10%, 30%} is reported.
+
+*Method B — Shuffled-response perplexity probe.* For each item, compute model perplexity on the original human response string and on a randomly shuffled version of the same response tokens. A contamination indicator is positive if the perplexity ratio (shuffled / original) exceeds 1.5, indicating that the model assigns substantially higher likelihood to the original ordering than chance. Both probes are run on the training-set human responses only; test-set responses are not used in the contamination scoring to prevent any leakage.
+
+For closed-source models where log-probabilities are unavailable (e.g., GPT-4o, GPT-5), a proxy contamination score is derived from an open-weights model with the most similar MMLU tier and the most overlapping known training data vintage (e.g., Llama 3.1 70B as proxy for GPT-4o). Proxy scores are used only for sensitivity analyses; primary detection results are reported only for models where direct log-probability access is confirmed.
+
+Each item receives a final contamination risk score (0–1) equal to the average of the two probe indicators, where available. Items with scores ≥ 0.5 are classified as **contamination-flagged**.
+
+**Stage 3 — Design-variable contamination interaction test.** The primary peer-review concern is not just that contamination exists, but that some design configurations may elicit more memorized content than others—biasing design-feature importance estimates. This is tested explicitly for five design variables most likely to modulate memorization:
+
+1. **Conditioning depth** (full vs. minimal): full conditioning includes more verbatim item metadata and demographic labels that may serve as retrieval cues.
+2. **Prompt framing** (persona-constrained vs. task-framing-only): persona prompts explicitly reference item context, potentially triggering memorized distributional responses.
+3. **Few-shot exemplar inclusion** (present vs. absent): if exemplars reproduce benchmark item text verbatim, fidelity gain may reflect retrieval rather than simulation.
+4. **Model capability tier** (MMLU ≥ 0.82 vs. < 0.82): frontier models have larger training corpora and are more likely to have memorized public datasets.
+5. **Output constraint strategy** (hard-bounded structured vs. free text): structured outputs constrain the response space in ways that may elicit or suppress memorization differently.
+
+For each of the five variables, a two-way interaction is tested in a supplementary OLS model:
+
+```
+SHFS ~ design_variable × contamination_tier + dataset_family_FE + outcome_mode_FE
+```
+
+A significant positive interaction (design_variable × Tier 3 > 0) indicates that the feature's fidelity benefit is inflated in high-contamination conditions, and the design-feature conclusion for that variable must be interpreted with an explicit contamination caveat.
+
+**Stage 4 — Corrected analysis.** Three corrected versions of the primary ML analysis are run as supplementary results:
+
+*Clean-only re-run:* Restrict to items classified as non-flagged (contamination score < 0.5) across all Tier 2 and Tier 3 datasets. Apply the same OLS and XGBoost pipelines from §15. Report whether the top-5 design features by partial R² and mean absolute SHAP change materially (rank shift > 2 positions) between the full-data and clean-only analyses.
+
+*Inverse-contamination-probability weighting:* Use (1 − contamination score) as a case weight in the WLS estimator from §15.1. This downweights contamination-flagged items proportionally rather than excluding them, preserving statistical power while reducing their influence.
+
+*Tier-stratified analysis:* Run the primary ML analysis separately on Tier 0–1 items and on Tier 2–3 items. If feature-importance rankings are highly similar across tiers (top-5 Spearman rank correlation ≥ 0.80), this provides convergent evidence that contamination does not distort design-feature conclusions. If rankings diverge substantially (< 0.50), the primary conclusions are flagged as contamination-sensitive and downgraded accordingly.
+
+**Stage 5 — Reporting.** The contamination analysis produces the following preregistered supplementary outputs:
+
+- **Supplementary Table C1:** Item contamination risk scores by dataset-task, method, and model tier.
+- **Supplementary Table C2:** Contamination × design-variable interaction coefficients with Holm-Bonferroni corrections for the five tested variables.
+- **Supplementary Table C3:** Feature importance comparison (full-data vs. clean-only vs. downweighted), showing rank and magnitude differences for the top-10 features.
+- **Supplementary Figure C1:** Scatter plot of full-data SHFS vs. clean-only SHFS by configuration, colored by dataset contamination tier; regression line and Pearson r reported.
+- **Main text note:** If any of the five design variables from Stage 3 shows a significant contamination interaction, a one-paragraph note is added to the main results section flagging that variable's conclusion as potentially contamination-inflated and citing the supplementary tables.
+
+**What contamination does and does not threaten.** Contamination uniformly inflates absolute SHFS for a given model and dataset; it does not, by itself, distort *comparative* design-feature conclusions unless some configurations elicit more memorization than others (Stage 3). The primary study claim—that design choices explain variance in SHFS—remains valid under uniform contamination. The secondary claim—that the recommended protocol produces genuinely higher fidelity relative to baselines—is the one requiring the Stage 4 clean-only validation. If clean-only results and full-data results converge on the same top design features, the protocol recommendations are robust to contamination. If they diverge, the protocol is revised to report only features stable across both analyses.
+
+**Reference.** Shi, W., Ajith, A., Xia, M., Huang, Y., Liu, D., Blevins, T., Chen, D., & Zettlemoyer, L. (2024). Detecting pretraining data from the ground up. *International Conference on Learning Representations (ICLR 2024)*. https://arxiv.org/abs/2310.16789
 
 ## 20. Ethics, Privacy, and Governance
 
@@ -681,6 +744,7 @@ Dataset, model-source, and DOI checks were performed on 2026-04-25. Raw-source s
 22. Bail, C. A. (2024). Can generative AI improve social science? *Proceedings of the National Academy of Sciences*, *121*(21), e2314021121. https://doi.org/10.1073/pnas.2314021121
 23. Tjuatja, L., Chen, V., Wu, T., Talwalkwar, A., & Neubig, G. (2024). Do LLMs exhibit human-like response biases? A case study in survey research. *Transactions of the Association for Computational Linguistics*, *12*, 1011–1026. https://doi.org/10.1162/tacl_a_00685
 24. Optuna Development Team. (2019). Optuna: A next-generation hyperparameter optimization framework. *Proceedings of the 25th ACM SIGKDD*, 2623–2631. https://doi.org/10.1145/3292500.3330701
+25. Shi, W., Ajith, A., Xia, M., Huang, Y., Liu, D., Blevins, T., Chen, D., & Zettlemoyer, L. (2024). Detecting pretraining data from the ground up. *International Conference on Learning Representations (ICLR 2024)*. https://arxiv.org/abs/2310.16789
 
 ### 24.3 OpenRouter Key and Model Availability Check
 

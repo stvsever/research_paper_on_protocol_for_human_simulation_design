@@ -6,7 +6,7 @@ A typed, machine-readable ontology of design choices that researchers and practi
 
 ## Ontology Overview
 
-![Circular radial diagram of the 18-dimension LLM simulation design ontology](figures/ontology_overview_v2.png)
+![Circular radial diagram of the 18-dimension LLM simulation design ontology](figures/ontology_overview_v4.png)
 
 The simulation design space is formalized as 1,149 leaf design choices organized across 18 top-level dimensions and 212 hierarchical groups. Each dimension covers a distinct stage of the simulation pipeline — from research problem formulation and model selection through prompt architecture, contextual conditioning, generation controls, and governance. The inner ring shows the 18 dimensions; the outer ring shows their direct sub-groups. Hard constraints (44 total) encode cross-tree incompatibilities, cardinality rules govern how many choices may be selected per group, and a constraint-aware sampler draws eligible configurations for empirical evaluation. The unconstrained state space exceeds 10³⁰ possible combinations; constraint filtering and cardinality rules reduce this to a tractable eligible set for stratified sampling.
 

@@ -134,12 +134,10 @@ research_paper_on_synthetic_generation_design/
     │   ├── build_ontology.py            # declarative source-of-truth builder
     │   ├── ontology.json                # canonical artifact (1123 leaves, 209 groups, 39 constraints)
     │   ├── sample_configurations.py     # CLI sampler with subtree filtering
-    │   ├── samples/
-    │   │   ├── pilot.txt                # 40 pilot design cells (10 MMLU × 2 critic × 2 conditioning)
-    │   │   ├── eligible_samples.txt     # canonical 100-config smoke-test output
-    │   │   └── minimal_smoke.txt        # 20-config end-to-end smoke test
-    │   └── constructs/
-    │       └── study_constructs.txt     # downstream study construct list
+    │   └── samples/
+    │       ├── pilot.txt                # 40 pilot design cells (10 MMLU × 2 critic × 2 conditioning)
+    │       ├── eligible_samples.txt     # canonical 100-config smoke-test output
+    │       └── minimal_smoke.txt        # 20-config end-to-end smoke test
     ├── preregistration/
     │   ├── osf/
     │   │   └── osf_preregistration.md   # single canonical preregistration document

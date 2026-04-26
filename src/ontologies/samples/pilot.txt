@@ -6,148 +6,305 @@
 #
 # FORMAT
 # ------
-# The 127 baseline leaves (identical across all 40 cells) are listed once below
-# under BASELINE_LEAVES. Each design cell row contains only the 5–6 variable
-# leaves that differ across cells; the full configuration = baseline + row leaves.
+# The baseline leaves (identical across all 40 cells) are listed once below
+# under BASELINE_LEAVES. Each design cell row contains only the 5-6 variable
+# leaves that differ across cells; full configuration = baseline + row leaves.
 #
 # Row fields: pilot_cell, valid, violations, n_leaves_total, variable_leaves[]
 #
 # VARIABLE DIMENSIONS (3 pilot factors):
 #   Factor 1 — MMLU target          : mmlu_target_{35,49,63,73,75,82,85,86,88,93}
-#   Factor 2 — Critic level absent  : single_agent + manual_prompt_chaining + max_iter_3
-#              Critic level present : actor_critic_pair + rubric_score_critic
+#   Factor 2 — Critic absent        : single_agent + manual_prompt_chaining + max_iter_3
+#              Critic present       : actor_critic_pair + rubric_score_critic
 #                                     + programmatic_state_machine + max_iter_1
 #   Factor 3 — Conditioning minimal : minimal_conditioning
 #              Conditioning full    : full_observed_conditioning
 #
-# BASELINE_LEAVES (127 leaves, fixed across all cells):
-#   contextual_conditioning.persona_demographic_conditioning.geography_specification.country_of_residence
-#   contextual_conditioning.situational_context_conditioning.experimental_condition
-#   evaluation_and_validation_framework.analysis_model_structure.regression_outcome_structure
-#   evaluation_and_validation_framework.comparator_design.human_silicon_direct_comparison
-#   evaluation_and_validation_framework.evaluation_target.marginal_distribution_recovery
-#   evaluation_and_validation_framework.evaluation_unit.item_level_evaluation
-#   evaluation_and_validation_framework.evaluation_unit.scale_level_evaluation
-#   evaluation_and_validation_framework.generalization_test.same_dataset_same_domain
-#   evaluation_and_validation_framework.uncertainty_quantification.bootstrap_confidence_intervals
-#   execution_environment_and_infrastructure.budget_management.fixed_token_budget
-#   execution_environment_and_infrastructure.caching_policy.prompt_hash_cache
-#   execution_environment_and_infrastructure.hardware_regime.provider_managed_hardware_abstraction
-#   execution_environment_and_infrastructure.invocation_layer.chat_completion_endpoint
-#   execution_environment_and_infrastructure.version_control_discipline.model_version_pinning
-#   governance_ethics_and_deployment_constraints.deployment_boundary.exploratory_research_only
-#   governance_ethics_and_deployment_constraints.disclosure_policy.full_synthetic_provenance_disclosure
-#   governance_ethics_and_deployment_constraints.reproducibility_governance.full_prompt_release
-#   human_benchmark_data_design.benchmark_access_regime.public_dataset
-#   human_benchmark_data_design.benchmark_alignment_unit.exact_item_match
-#   human_benchmark_data_design.benchmark_preprocessing.raw_responses_retained
-#   human_benchmark_data_design.benchmark_representation_mode.aggregate_score_regression
-#   human_benchmark_data_design.benchmark_representation_mode.raw_response_multiclass
-#   human_benchmark_data_design.benchmark_representation_mode.raw_response_ordinal
-#   human_benchmark_data_design.benchmark_source_type.survey_dataset
-#   human_benchmark_data_design.benchmark_split_strategy.calibration_confirmation_split
-#   interaction_decomposition_and_orchestration.between_respondent_isolation_policy.full_isolation
-#   interaction_decomposition_and_orchestration.call_topology.single_call_per_respondent
-#   interaction_decomposition_and_orchestration.conditional_branching_strategy.no_branching
-#   interaction_decomposition_and_orchestration.cross_item_dependency_handling.independent_item_generation
-#   interaction_decomposition_and_orchestration.ensemble_strategy.single_model_workflow
-#   interaction_decomposition_and_orchestration.multi_call_aggregation_strategy.no_replication
-#   interaction_decomposition_and_orchestration.parallelization_strategy.respondent_level_parallelisation
-#   interaction_decomposition_and_orchestration.temporal_execution_design.one_pass_batch_generation
-#   interaction_decomposition_and_orchestration.within_respondent_memory_policy.stateless_calls
-#   measure_task_and_stimulus_representation.construct_information_packaging.no_construct_information
-#   measure_task_and_stimulus_representation.experimental_design_encoding.between_subjects_condition_encoding
-#   measure_task_and_stimulus_representation.instrument_representation.item_structure.single_stem_single_response
-#   measure_task_and_stimulus_representation.instrument_representation.measurement_family.survey_scale_representation
-#   measure_task_and_stimulus_representation.instrument_representation.response_scale_design.five_point_likert
-#   measure_task_and_stimulus_representation.language_and_localization.source_language_exact_wording
-#   measure_task_and_stimulus_representation.reference_frame.current_self_reference_frame
-#   measure_task_and_stimulus_representation.routing_and_eligibility_logic.no_skip_logic
-#   measure_task_and_stimulus_representation.stimulus_material_encoding.text_scenario
-#   model_adaptation_and_alignment.adaptation_strategy.zero_shot_use
-#   model_adaptation_and_alignment.alignment_data_scope.same_domain_same_population_data
-#   model_system_selection.model_as_factor_representation.model_not_a_factor
-#   model_system_selection.model_capability_regime.general_chat_model
-#   model_system_selection.model_family.claude_family
-#   model_system_selection.model_family.gemini_family
-#   model_system_selection.model_family.gpt_family
-#   model_system_selection.model_scale.mid_scale_model
-#   model_system_selection.model_versioning.fixed_snapshot_version
-#   model_system_selection.provider_class.proprietary_api_model
-#   model_system_selection.training_specificity.general_purpose_model
-#   output_representation_and_capture.auxiliary_trace_capture.final_answer_only
-#   output_representation_and_capture.confidence_representation.no_confidence_field
-#   output_representation_and_capture.logging_granularity.prompt_response_pair_logging
-#   output_representation_and_capture.measurement_mapping.direct_item_score_output
-#   output_representation_and_capture.missingness_representation.no_missingness_allowed
-#   output_representation_and_capture.output_modality.ordinal_category_output
-#   output_representation_and_capture.response_constraint_strategy.hard_bounded_integer_output
-#   output_representation_and_capture.storage_format.json_lines_storage
-#   output_representation_and_capture.structured_schema_design.single_field_schema
-#   postprocessing_and_data_transformation.aggregation_strategy.single_draw_usage
-#   postprocessing_and_data_transformation.distribution_correction.no_correction
-#   postprocessing_and_data_transformation.parsing_strategy.tolerant_parser
-#   postprocessing_and_data_transformation.scale_construction.item_sum_score
-#   postprocessing_and_data_transformation.score_transformation.native_output_retained
-#   postprocessing_and_data_transformation.validation_strategy.range_validation
-#   postprocessing_and_data_transformation.validation_strategy.type_validation
-#   prompt_and_instruction_architecture.cognitive_guidance.no_reasoning_cue
-#   prompt_and_instruction_architecture.example_provision.no_examples
-#   prompt_and_instruction_architecture.formatting_choices.numbered_item_formatting
-#   prompt_and_instruction_architecture.instruction_specificity.standardised_instruction
-#   prompt_and_instruction_architecture.item_presentation_regime.all_measures_in_single_prompt
-#   prompt_and_instruction_architecture.ordering_strategy.original_human_order
-#   prompt_and_instruction_architecture.prompt_content_packaging.items_only
-#   prompt_and_instruction_architecture.prompt_framing_strategy.persona_role_framing
-#   prompt_and_instruction_architecture.prompt_style_attributes.neutral_register
-#   prompt_and_instruction_architecture.prompt_template_management.single_monolithic_template
-#   prompt_and_instruction_architecture.respondent_role_instruction.act_as_probabilistic_draw_from_population
-#   prompt_and_instruction_architecture.response_generation_perspective.first_person_perspective
-#   prompt_and_instruction_architecture.system_prompt_design.generic_assistant_system_prompt
-#   prompt_and_instruction_architecture.uncertainty_prompting.deterministic_single_best_response
-#   prompt_and_instruction_architecture.wording_fidelity.exact_human_wording
-#   quality_assurance_and_failure_management.audit_trail_strategy.immutable_run_log
-#   quality_assurance_and_failure_management.completion_threshold_policy.min_75_percent_completion
-#   quality_assurance_and_failure_management.failure_type_handling.format_violation_handling
-#   quality_assurance_and_failure_management.failure_type_handling.refusal_handling
-#   quality_assurance_and_failure_management.plausibility_screening.range_plausibility_check
-#   quality_assurance_and_failure_management.retry_policy.same_prompt_retry
-#   research_problem_formulation.causal_ambition.descriptive_fidelity
-#   research_problem_formulation.domain_scope.economics.behavioral_economics
-#   research_problem_formulation.intended_scientific_function.descriptive_marginal_distribution
-#   research_problem_formulation.target_human_output_type.survey_binary
-#   research_problem_formulation.target_inference_unit.participant_level
-#   research_problem_formulation.time_structure.static_snapshot
-#   robustness_generalization_and_multiverse.alternative_method_benchmarking.simple_mean_or_mode_baseline
-#   robustness_generalization_and_multiverse.overfitting_control.preregistered_search_space
-#   robustness_generalization_and_multiverse.perturbation_families.model_perturbation
-#   robustness_generalization_and_multiverse.perturbation_families.prompt_wording_perturbation
-#   robustness_generalization_and_multiverse.replicability_design.exact_reproduction_run
-#   robustness_generalization_and_multiverse.robustness_summary.specification_curve
-#   robustness_generalization_and_multiverse.specification_space_mapping.factorial_grid
-#   sampling_and_generation_controls.cost_latency_tradeoff.balanced_utility_generation
-#   sampling_and_generation_controls.diversity_control.diversity_via_sampling_only
-#   sampling_and_generation_controls.length_control.fixed_moderate_output_length
-#   sampling_and_generation_controls.nucleus_sampling_control.no_top_p
-#   sampling_and_generation_controls.randomness_regime.low_stochasticity_decoding
-#   sampling_and_generation_controls.reasoning_budget_control.no_explicit_reasoning_budget
-#   sampling_and_generation_controls.reproducibility_control.fixed_seed
-#   sampling_and_generation_controls.safety_filter_interaction.standard_safety_setting
-#   sampling_and_generation_controls.temperature_control.temp_medium_0_7
-#   sampling_and_generation_controls.termination_control.default_stop_behavior
-#   sampling_and_generation_controls.top_k_control.no_top_k
-#   synthetic_population_specification.composition_control.naturalistic_composition
-#   synthetic_population_specification.inter_respondent_dependence.independent_respondents
-#   synthetic_population_specification.persona_attribute_source.hybrid_observed_sampled_profiles
-#   synthetic_population_specification.persona_identity_structure.anonymous_respondent_slots
-#   synthetic_population_specification.persona_persistence.one_off_respondent_instantiation
-#   synthetic_population_specification.population_construction_paradigm.direct_persona_enumeration
-#   synthetic_population_specification.synthetic_sample_size_strategy.human_matched_sample_size
-#   target_human_system_specification.behavioral_regime.attitudinal_responding
-#   target_human_system_specification.human_heterogeneity_model.homogeneous_population_assumption
-#   target_human_system_specification.population_scope.nationally_representative_sample
-#   target_human_system_specification.representation_granularity.individual_level_persona
-#   target_human_system_specification.response_process_assumption.direct_response_emulation
+# BASELINE_LEAVES — 127 leaves fixed across all 40 cells
+# (indented: dimension → group → leaf)
+#
+#   contextual_conditioning
+#       persona_demographic_conditioning.geography_specification
+#           country_of_residence
+#       situational_context_conditioning
+#           experimental_condition
+#
+#   evaluation_and_validation_framework
+#       analysis_model_structure
+#           regression_outcome_structure
+#       comparator_design
+#           human_silicon_direct_comparison
+#       evaluation_target
+#           marginal_distribution_recovery
+#       evaluation_unit
+#           item_level_evaluation
+#           scale_level_evaluation
+#       generalization_test
+#           same_dataset_same_domain
+#       uncertainty_quantification
+#           bootstrap_confidence_intervals
+#
+#   execution_environment_and_infrastructure
+#       budget_management
+#           fixed_token_budget
+#       caching_policy
+#           prompt_hash_cache
+#       hardware_regime
+#           provider_managed_hardware_abstraction
+#       invocation_layer
+#           chat_completion_endpoint
+#       version_control_discipline
+#           model_version_pinning
+#
+#   governance_ethics_and_deployment_constraints
+#       deployment_boundary
+#           exploratory_research_only
+#       disclosure_policy
+#           full_synthetic_provenance_disclosure
+#       reproducibility_governance
+#           full_prompt_release
+#
+#   human_benchmark_data_design
+#       benchmark_access_regime
+#           public_dataset
+#       benchmark_alignment_unit
+#           exact_item_match
+#       benchmark_preprocessing
+#           raw_responses_retained
+#       benchmark_representation_mode
+#           aggregate_score_regression
+#           raw_response_multiclass
+#           raw_response_ordinal
+#       benchmark_source_type
+#           survey_dataset
+#       benchmark_split_strategy
+#           calibration_confirmation_split
+#
+#   interaction_decomposition_and_orchestration
+#       between_respondent_isolation_policy
+#           full_isolation
+#       call_topology
+#           single_call_per_respondent
+#       conditional_branching_strategy
+#           no_branching
+#       cross_item_dependency_handling
+#           independent_item_generation
+#       ensemble_strategy
+#           single_model_workflow
+#       multi_call_aggregation_strategy
+#           no_replication
+#       parallelization_strategy
+#           respondent_level_parallelisation
+#       temporal_execution_design
+#           one_pass_batch_generation
+#       within_respondent_memory_policy
+#           stateless_calls
+#
+#   measure_task_and_stimulus_representation
+#       construct_information_packaging
+#           no_construct_information
+#       experimental_design_encoding
+#           between_subjects_condition_encoding
+#       instrument_representation.item_structure
+#           single_stem_single_response
+#       instrument_representation.measurement_family
+#           survey_scale_representation
+#       instrument_representation.response_scale_design
+#           five_point_likert
+#       language_and_localization
+#           source_language_exact_wording
+#       reference_frame
+#           current_self_reference_frame
+#       routing_and_eligibility_logic
+#           no_skip_logic
+#       stimulus_material_encoding
+#           text_scenario
+#
+#   model_adaptation_and_alignment
+#       adaptation_strategy
+#           zero_shot_use
+#       alignment_data_scope
+#           same_domain_same_population_data
+#
+#   model_system_selection
+#       model_as_factor_representation
+#           model_not_a_factor
+#       model_capability_regime
+#           general_chat_model
+#       model_family
+#           claude_family
+#           gemini_family
+#           gpt_family
+#       model_scale
+#           mid_scale_model
+#       model_versioning
+#           fixed_snapshot_version
+#       provider_class
+#           proprietary_api_model
+#       training_specificity
+#           general_purpose_model
+#
+#   output_representation_and_capture
+#       auxiliary_trace_capture
+#           final_answer_only
+#       confidence_representation
+#           no_confidence_field
+#       logging_granularity
+#           prompt_response_pair_logging
+#       measurement_mapping
+#           direct_item_score_output
+#       missingness_representation
+#           no_missingness_allowed
+#       output_modality
+#           ordinal_category_output
+#       response_constraint_strategy
+#           hard_bounded_integer_output
+#       storage_format
+#           json_lines_storage
+#       structured_schema_design
+#           single_field_schema
+#
+#   postprocessing_and_data_transformation
+#       aggregation_strategy
+#           single_draw_usage
+#       distribution_correction
+#           no_correction
+#       parsing_strategy
+#           tolerant_parser
+#       scale_construction
+#           item_sum_score
+#       score_transformation
+#           native_output_retained
+#       validation_strategy
+#           range_validation
+#           type_validation
+#
+#   prompt_and_instruction_architecture
+#       cognitive_guidance
+#           no_reasoning_cue
+#       example_provision
+#           no_examples
+#       formatting_choices
+#           numbered_item_formatting
+#       instruction_specificity
+#           standardised_instruction
+#       item_presentation_regime
+#           all_measures_in_single_prompt
+#       ordering_strategy
+#           original_human_order
+#       prompt_content_packaging
+#           items_only
+#       prompt_framing_strategy
+#           persona_role_framing
+#       prompt_style_attributes
+#           neutral_register
+#       prompt_template_management
+#           single_monolithic_template
+#       respondent_role_instruction
+#           act_as_probabilistic_draw_from_population
+#       response_generation_perspective
+#           first_person_perspective
+#       system_prompt_design
+#           generic_assistant_system_prompt
+#       uncertainty_prompting
+#           deterministic_single_best_response
+#       wording_fidelity
+#           exact_human_wording
+#
+#   quality_assurance_and_failure_management
+#       audit_trail_strategy
+#           immutable_run_log
+#       completion_threshold_policy
+#           min_75_percent_completion
+#       failure_type_handling
+#           format_violation_handling
+#           refusal_handling
+#       plausibility_screening
+#           range_plausibility_check
+#       retry_policy
+#           same_prompt_retry
+#
+#   research_problem_formulation
+#       causal_ambition
+#           descriptive_fidelity
+#       domain_scope.economics
+#           behavioral_economics
+#       intended_scientific_function
+#           descriptive_marginal_distribution
+#       target_human_output_type
+#           survey_binary
+#       target_inference_unit
+#           participant_level
+#       time_structure
+#           static_snapshot
+#
+#   robustness_generalization_and_multiverse
+#       alternative_method_benchmarking
+#           simple_mean_or_mode_baseline
+#       overfitting_control
+#           preregistered_search_space
+#       perturbation_families
+#           model_perturbation
+#           prompt_wording_perturbation
+#       replicability_design
+#           exact_reproduction_run
+#       robustness_summary
+#           specification_curve
+#       specification_space_mapping
+#           factorial_grid
+#
+#   sampling_and_generation_controls
+#       cost_latency_tradeoff
+#           balanced_utility_generation
+#       diversity_control
+#           diversity_via_sampling_only
+#       length_control
+#           fixed_moderate_output_length
+#       nucleus_sampling_control
+#           no_top_p
+#       randomness_regime
+#           low_stochasticity_decoding
+#       reasoning_budget_control
+#           no_explicit_reasoning_budget
+#       reproducibility_control
+#           fixed_seed
+#       safety_filter_interaction
+#           standard_safety_setting
+#       temperature_control
+#           temp_medium_0_7
+#       termination_control
+#           default_stop_behavior
+#       top_k_control
+#           no_top_k
+#
+#   synthetic_population_specification
+#       composition_control
+#           naturalistic_composition
+#       inter_respondent_dependence
+#           independent_respondents
+#       persona_attribute_source
+#           hybrid_observed_sampled_profiles
+#       persona_identity_structure
+#           anonymous_respondent_slots
+#       persona_persistence
+#           one_off_respondent_instantiation
+#       population_construction_paradigm
+#           direct_persona_enumeration
+#       synthetic_sample_size_strategy
+#           human_matched_sample_size
+#
+#   target_human_system_specification
+#       behavioral_regime
+#           attitudinal_responding
+#       human_heterogeneity_model
+#           homogeneous_population_assumption
+#       population_scope
+#           nationally_representative_sample
+#       representation_granularity
+#           individual_level_persona
+#       response_process_assumption
+#           direct_response_emulation
+#
 #
 # DESIGN CELLS (40 rows — variable leaves only):
 

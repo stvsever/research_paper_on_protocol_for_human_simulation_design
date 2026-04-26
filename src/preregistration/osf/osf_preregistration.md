@@ -569,19 +569,32 @@ Planned supplementary analyses:
 
 ## 20. Ethics, Privacy, and Governance
 
-This study uses existing public or public-use human datasets. No new human participants will be recruited. The main ethical risks are re-identification, inappropriate use of sensitive attributes, misleading claims about human validity, and downstream misuse of synthetic simulators.
+This study analyses existing public or public-use datasets; no new human participants are recruited. Because the study generates and evaluates *synthetic* human-like responses rather than collecting new personal data, its primary ethical obligations concern three domains: (1) protecting participant privacy in the source datasets, (2) communicating validity claims accurately, and (3) preventing downstream misuse of synthetic simulation technology. The protocol is preregistered and locked before any data generation begins.
 
-Safeguards:
+**Data privacy and participant protection**
 
-1. Direct identifiers will not be included in prompts or generated datasets.
-2. Rare or high-risk attribute combinations will be coarsened or omitted.
-3. Sensitive variables will be used only when permitted by dataset terms and scientifically necessary.
-4. Project Implicit data-use restrictions, including non-commercial research use and no re-identification, will be followed.
-5. The study will not release row-level synthetic data that could be mistaken for real individuals without clear labeling and documentation.
-6. The final protocol will explicitly state that high fidelity on benchmark datasets does not imply ethical permissibility for manipulative, deceptive, or high-stakes deployment.
-7. The study will distinguish methodological validation from authorization to replace human evidence in policy, clinical, legal, or electoral settings.
-8. **Training-data contamination disclosure.** Several benchmark datasets are publicly available and may have appeared in LLM pre-training corpora. This does not invalidate the study's design-choice comparisons (contamination affects all configurations for a given model equally), but it means that absolute SHFS values may overstate generalizable simulation fidelity. All published results will clearly note this risk and report the contamination-sensitivity analysis (§19, item 22).
-9. **MMLU as capability proxy.** MMLU is used as a continuous model-capability covariate because it is consistently documented across providers. However, models with identical MMLU scores may differ substantially on social-science-relevant tasks (e.g., theory-of-mind, cultural knowledge, value alignment). MMLU-related findings will be described as estimates of the capability–fidelity relationship along the MMLU dimension specifically, with a limitation note that other capability dimensions (instruction-following, calibration, cultural competence) are not independently captured.
+1. Direct identifiers will not be included in prompts, intermediate outputs, or any released files.
+2. Rare or high-risk attribute combinations (e.g., intersectional demographic cells with fewer than five source respondents) will be coarsened or suppressed before prompting.
+3. Sensitive variables (including race, religion, political affiliation, sexual orientation, and mental-health indicators) will be used only when (a) explicitly permitted under the source dataset's data-use agreement, (b) scientifically necessary for the research question, and (c) handled at the minimum granularity required.
+4. Project Implicit data-use restrictions — including the prohibition on commercial use and re-identification — will be strictly observed.
+5. Row-level synthetic outputs will not be released in any form that could be mistaken for records of real individuals. Any released synthetic data will be clearly labeled, documented, and aggregated to configuration-level summaries rather than individual rows.
+
+**Validity claims and responsible reporting**
+
+6. High fidelity on benchmark datasets does not constitute ethical authorization to deploy LLMs as human simulators in applied settings. This study establishes methodological benchmarks; it does not authorize any specific deployment.
+7. Findings will explicitly distinguish *protocol validation* (does configuration X produce responses more similar to human distributions?) from claims about representational accuracy for specific sub-populations or real-world decision contexts.
+8. Training-data contamination: several benchmark datasets are publicly archived and may have appeared in LLM pre-training corpora. This does not invalidate design-choice comparisons (contamination affects all configurations for a given model equally), but absolute SHFS values may overstate generalizable simulation fidelity. All published results will note this limitation and cross-reference the preregistered contamination-sensitivity analysis (§19, item 22).
+
+**Downstream use and dual-use risk**
+
+9. The validated simulation protocol could, if misused, be applied to generate deceptive synthetic opinion data or to manipulate survey-based instruments. The published manuscript will include an explicit statement that the protocol is not authorized for use in influence operations, deceptive research practices, or any context where synthetic responses would be presented as genuine human data without disclosure and appropriate institutional approval.
+10. The study will make no recommendations about replacing human evidence with synthetic data in policy, clinical, legal, or electoral settings; any such application would require independent validity evaluation far beyond the scope of this benchmark.
+
+**Institutional oversight and data governance**
+
+11. This protocol is preregistered on OSF and timestamped before the first API call. Post-registration deviations are logged in `src/preregistration/deviations.md`.
+12. Code, prompt templates, configuration files, and analysis scripts will be released under an open license upon manuscript submission, subject to dataset-specific redistribution restrictions.
+13. Human benchmark data governed by data-use agreements (e.g., Project Implicit, AIID) will not be redistributed; `src/data/sources_manifest.json` documents access instructions for all source datasets.
 
 ## 21. Reproducibility Plan
 

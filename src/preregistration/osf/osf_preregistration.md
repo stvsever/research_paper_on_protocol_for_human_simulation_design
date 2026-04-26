@@ -1,6 +1,5 @@
 # Preregistration: A Data-Driven Protocol for LLM-Based Simulation of Human Behavior
 
-Preregistration version: 1.4 draft for OSF registration  
 Date: 2026-04-25  
 Author: Stijn Van Severen  
 Contact: stijn.vanseveren@ugent.be  
@@ -541,30 +540,52 @@ Outliers:
 
 ## 19. Supplementary and Robustness Analyses
 
-Planned supplementary analyses:
+The following analyses are preregistered alongside the primary analyses. Each addresses a specific threat to validity, generalizability, or interpretability that the primary design cannot resolve on its own. All are fully planned prior to data collection; none are exploratory.
 
-1. Variance decomposition by dataset family, ontology branch, model capability, and outcome mode.
-2. Leave-one-dataset-family-out generalization.
-3. Leave-one-model-family-out sensitivity.
-4. SHFS aggregation sensitivity using alternative metric weights.
-5. Exclusion of MMLU/model-capability features to test whether non-model design choices retain importance.
-6. Cost-latency Pareto frontier analysis.
-7. Subgroup-fidelity analysis by available demographic or identity variables.
-8. Robustness to excluding Project Implicit/AIID sensitive-attitude tasks.
-9. Critic-actor ablation: actor-only versus actor-critic at matched model and conditioning depth.
-10. Prompt-format ablation where response schema permits.
-11. Failure-mode taxonomy for refusals, malformed outputs, implausible responses, and over-regularized distributions.
-12. Rank stability of OLS and SHAP feature importance under bootstrapping.
-13. Comparison of task-level versus dataset-level aggregation.
-14. Analysis of whether configurations recover individual-level heterogeneity or only aggregate marginal distributions.
-15. Negative-control tasks where no individual-level prediction should be possible beyond marginal distributions.
+1. Variance decomposition by dataset family, ontology branch, model capability, and outcome mode: partitions total SHFS variance across these factors using a sequential ANOVA framework, to determine how much of the observed variation in fidelity is attributable to genuine configuration effects versus dataset- or model-family artifacts.
+
+2. Leave-one-dataset-family-out generalization: refit all primary models holding out each dataset family in turn and evaluate on the held-out family, to test whether identified design-choice effects generalize to dataset families not used for estimation.
+
+3. Leave-one-model-family-out sensitivity: refit primary models excluding each model provider's full model family in turn, to confirm that findings are not driven by idiosyncratic characteristics of a single provider's architecture or training regime.
+
+4. SHFS aggregation sensitivity using alternative metric weights: recompute SHFS under ±20% perturbations of the distributional overlap, rank correlation, and calibration component weights, to verify that the ranking of configurations is stable across defensible alternative weightings.
+
+5. Exclusion of MMLU and model-capability features: refit primary OLS and XGBoost models without MMLU and capability covariates, to confirm that the effects of ontology-grounded design choices (prompt framing, conditioning depth, output constraint) are not entirely mediated by — or confounded with — model capability.
+
+6. Cost-latency Pareto frontier analysis: identify configurations on the cost-efficiency frontier (highest SHFS per token-cost unit) across model tiers, to give practitioners actionable guidance for deploying simulation protocols under resource constraints.
+
+7. Subgroup-fidelity analysis by available demographic variables: test whether aggregate SHFS masks systematic fidelity gaps across demographic subgroups (e.g., by age, gender, education), since configurations that perform well on average may still underperform for minority-group profiles.
+
+8. Robustness to excluding sensitive-attitude tasks (Project Implicit / AIID): rerun primary analyses after removing implicit-bias and sensitive-attitude items, to confirm that findings hold for conventional survey tasks and are not driven by the distinctive response structure of attitude measures.
+
+9. Critic-actor ablation at matched model and conditioning depth: compare actor-only versus actor-critic generation to isolate the marginal fidelity gain attributable to the self-critique component, separating it from model-capability and conditioning effects.
+
+10. Prompt-format ablation where response schema permits: vary surface formatting (JSON vs. free-text, labeled vs. unlabeled choices) while holding the configuration constant, to estimate how much measured fidelity reflects response-format compliance rather than underlying simulation quality.
+
+11. Failure-mode taxonomy: classify and quantify refusals, malformed outputs, implausible responses, and over-regularized distributions by configuration and model, to enable responsible interpretation of excluded cells and identify which failure modes are configuration-specific versus model-wide.
+
+12. Rank stability of OLS and SHAP feature importance under bootstrapping: refit models on 1,000 bootstrap samples and report the proportion in which each feature retains its point-estimate rank ±1, to confirm that the importance ranking is stable enough to support protocol recommendations.
+
+13. Task-level versus dataset-level aggregation: recompute primary results aggregating SHFS at the individual-task level rather than the dataset level, to test whether conclusions are sensitive to the unit of aggregation and whether task-level averaging surfaces patterns obscured by dataset-level summaries.
+
+14. Individual-level heterogeneity: test whether configurations that maximize aggregate SHFS also recover within-group response spread — not only marginal distributions — using Earth Mover's Distance decomposed into location and spread components; configurations that match marginals but not spread are flagged as aggregate-only simulators.
+
+15. Negative-control tasks: compute SHFS on items where demographic conditioning provides no valid predictive signal (e.g., random-assignment experimental outcomes); SHFS significantly above zero on these items constitutes evidence of metric inflation and will be reported as a limitation.
+
 16. Mixed-effects / multilevel model as supplementary transparency check: fit a two-level random-intercept model with configuration-level predictors at level 1 and dataset-family random intercepts at level 2, using the same feature set as the primary OLS model. This respects the nested structure of cells within dataset families without removing dataset-family variance from the primary OLS estimand. Compare fixed-effect estimates between OLS-with-clustering and the mixed-effects model; systematic divergence will be reported and interpreted.
+
 17. Influential-observation sensitivity: refit primary linear model excluding cells flagged by Cook's D or DFFITS diagnostics; compare coefficient direction and magnitude against the full-data estimates.
+
 18. Range-restriction analysis for pilot MMLU anchor: if the lowest pilot MMLU target (0.35) cannot be filled with a model whose documented MMLU is ≤ 0.43 at execution time, report the effective MMLU range used, estimate the expected attenuation in capability–SHFS slope given the reduced range, and flag any MMLU-related conclusions as potentially conservative.
+
 19. LASSO stability-selection path: report which ontology branch aggregates and leaf indicators remain non-zero as the LASSO penalty increases from near-zero to sparse, using the same training set and preprocessing as the primary OLS model. This provides a data-driven feature-importance ranking that is orthogonal to SHAP.
+
 20. XGBoost calibration check: compare predicted versus actual SHFS on the held-out test set using a calibration plot and report the calibration slope and intercept; over- or under-confidence in SHFS predictions will be reported as a limitation of the SHAP rankings.
+
 21. Semantic embedding cluster analysis: each benchmark item or item group will be represented as a concatenated text string (item wording + response options + dataset context descriptor) and embedded using a single frozen, non-fine-tuned text-embedding model applied uniformly across all datasets (e.g., OpenAI `text-embedding-3-large` or an equivalent open model). In the resulting high-dimensional embedding space, items are clustered using k-means (k selected via gap statistic, minimum k = 3, maximum k = 20) and hierarchical agglomerative clustering (Ward linkage; dendrogram truncated at 10 levels). SHFS values are then regressed on cluster membership as a categorical predictor, controlling for dataset-family and outcome mode fixed effects, to test whether semantically coherent item groups show systematically different fidelity profiles beyond what dataset-family labels capture. This analysis identifies cross-dataset fidelity zones—e.g., whether LLMs consistently underperform on morally ambiguous items or items with rare demographic conditioning—independent of the nominal dataset grouping. Results reported as: (a) 2D UMAP projections of item embeddings colored by SHFS; (b) cluster-level SHFS box plots; (c) partial R² of embedding-cluster membership in the primary OLS model; and (d) qualitative description of the three highest- and three lowest-SHFS semantic clusters.
+
 22. Training-data contamination protocol: contamination risk is assigned per (dataset, model) pair, not per dataset alone, because a dataset released after a model's training cutoff cannot be contaminated in that model's weights. Documented cutoffs: GPT-4o mini Oct 2023; Llama 3.2 1B/3B/3.1 8B/3.3 70B Dec 2023; Gemma 2 27B ~Apr 2024; GPT-4o Apr 2024; Phi-4 Jun 2024; LFM 2.5 1.2B and GPT-5 TBD (confirmed before pilot). Seven of eight benchmark datasets (AIID 2018, Race IAT instrument ~2002, ANES ongoing, GSS ongoing, ESS rounds 1–11 from 2003, WVS Wave 7 2022, Moral Machine 2018) are Tier 3 — high-risk for all models — because their item text was publicly indexed before every model's cutoff. Psych-101/Centaur (April 2025) is the single naturally clean dataset (Tier 0) for nine of ten models. Tier assignments are locked in `src/data/sources_manifest.json` before generation; GPT-5 and LFM cutoff confirmations are logged as deviations if they reclassify Psych-101. For each (item, model) pair in Tier 2–3 cells, two probes are run using token log-probabilities (open-weights models directly; closed-source via a matched proxy): (a) Min-K% probability probe (K = 20%; Shi et al., 2024) — anomalously high probability on the least-likely tokens flags memorization; (b) shuffled-response perplexity ratio — a ratio > 1.5 is a positive indicator. Each pair receives a contamination score (0–1); scores ≥ 0.5 are flagged. Items flagged for ≥ 5 of 10 models are classified as broadly contaminated and excluded from all clean-only analyses. Five design variables are tested for a contamination × design-variable interaction in a supplementary OLS model: (1) conditioning depth, (2) prompt framing, (3) few-shot exemplar inclusion, (4) model capability tier (MMLU ≥ 0.82 vs. < 0.82), and (5) output constraint strategy; familywise error rate controlled with Holm-Bonferroni. Four supplementary corrected analyses are reported: (a) *Psych-101 natural holdout* — primary ML analysis restricted to Psych-101/Centaur cells; (b) *probe-based clean-only re-run* — all datasets restricted to non-flagged pairs; (c) *inverse-contamination-probability WLS* — (1 − contamination score) as case weight; (d) *early- vs. late-cutoff model comparison* — models grouped by cutoff (Oct–Dec 2023 vs. Apr–Jun 2024). If top-5 feature rankings from analysis (a) diverge from full-data rankings by > 2 positions for any feature, that feature's main-text conclusion is flagged with an explicit contamination caveat. Full results in Supplementary Tables C1–C4 and Figures C1–C2.
+
 23. Floor-reliability stratum analysis: all configuration-dataset-task cells excluded from primary SHFS due to degenerate baselines (§12) will be analyzed as a separate stratum. Descriptive statistics of their raw performance scores, parse failure rates, and outcome modes will be reported to document which task families are structurally resistant to silicon-human comparison under current reliability conditions.
 
 ## 20. Ethics, Privacy, and Governance

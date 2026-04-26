@@ -22,7 +22,7 @@
 - [📊 Methodology Overview](#-methodology-overview)
 - [🔑 Primary Results at a Glance](#-primary-results-at-a-glance)
 - [📌 Key Anticipated Contributions](#-key-anticipated-contributions)
-- [📝 Preregistration](#-preregistration)
+- [🔐 Preregistration](#-preregistration)
 - [📄 Full Paper](#-full-paper)
 - [🗂️ Repository Structure](#️-repository-structure)
 - [🛠️ Setup and Installation](#️-setup-and-installation)
@@ -79,7 +79,7 @@ An eight-stage pipeline applies a machine-readable ontology (1,149 design choice
 
 ---
 
-## 📝 Preregistration
+## 🔐 Preregistration
 
 Full study preregistration is available in `src/preregistration/osf/osf_preregistration.md`. This document specifies:
 - Pilot study design (§10): 40-cell factorial experiment (10 MMLU targets × 2 critic levels × 2 conditioning depths)

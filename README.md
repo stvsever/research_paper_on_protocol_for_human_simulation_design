@@ -22,6 +22,7 @@
 - [📊 Methodology Overview](#-methodology-overview)
 - [🔑 Primary Results at a Glance](#-primary-results-at-a-glance)
 - [📌 Key Anticipated Contributions](#-key-anticipated-contributions)
+- [📝 Preregistration](#-preregistration)
 - [📄 Full Paper](#-full-paper)
 - [🗂️ Repository Structure](#️-repository-structure)
 - [🛠️ Setup and Installation](#️-setup-and-installation)
@@ -75,6 +76,18 @@ An eight-stage pipeline applies a machine-readable ontology (1,149 design choice
 - **Analysis:** Dual-model explanatory approach — OLS variance decomposition for transparency and XGBoost+SHAP for nonlinear feature importance — with cross-validated stability checks and held-out dataset validation.
 - **Output:** A data-driven design protocol in decision-tree and checklist form, validated on held-out configurations and dataset families, that researchers can apply to future silicon-human simulation studies.
 - **Scope:** Results will clarify when silicon simulation is likely to approximate human-level fidelity and where its limitations remain, with explicit ethics and misuse constraints.
+
+---
+
+## 📝 Preregistration
+
+Full study preregistration is available in `src/preregistration/osf/osf_preregistration.md`. This document specifies:
+- Pilot study design (§10): 40-cell factorial experiment (10 MMLU targets × 2 critic levels × 2 conditioning depths)
+- Three-stage configuration sampling strategy (§11): conventional-core, broad random, and targeted supplementary draws
+- Outcome variables and fidelity metrics (§12–16): silicon-human fidelity score (SHFS), dual ML models (OLS/WLS + XGBoost+TreeSHAP)
+- Contamination protocol (§22): dataset × model training-cutoff risk matrix; four corrected analyses for high-risk pairs
+- Ethics and governance (§20): IRB oversight, dual-use risk assessment, disclosure requirements
+- Deviations log: see `src/preregistration/deviations.md` for any changes made after preregistration
 
 ---
 

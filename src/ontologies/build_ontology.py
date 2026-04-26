@@ -7,12 +7,10 @@ Run:  python build_ontology.py            (writes ontology.json next to this fil
 Schema (high-level)
 -------------------
 {
-  "schema_version": str,
-  "ontology_id":    str,
-  "meta":           dict   # vocabularies + sampling semantics
-  "dimensions":     dict   # the typed taxonomic tree (groups + leaves)
-  "constraints":    list   # cross-tree compatibility rules
-  "presets":        dict   # named curated subsets ("conventional", "minimal", ...)
+  "meta":        dict   # vocabularies + sampling semantics
+  "dimensions":  dict   # the typed taxonomic tree (groups + leaves)
+  "constraints": list   # cross-tree compatibility rules
+  "presets":     dict   # named curated subsets ("conventional", "minimal", ...)
 }
 
 Every NON-leaf carries a `_meta` block defining how children combine
@@ -2582,8 +2580,6 @@ PRESETS = {
 # ---------------------------------------------------------------------------
 def assemble() -> dict:
     return {
-        "schema_version": "2.0",
-        "ontology_id": "llm_synthetic_human_design_v2",
         "title": "Combinatorial State Space of LLM-Based Synthetic Human-Behavior Generation Designs",
         "summary": (
             "A typed, machine-readable taxonomy of design choices researchers and "

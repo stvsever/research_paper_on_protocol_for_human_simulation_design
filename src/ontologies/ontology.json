@@ -1,6 +1,4 @@
 {
-  "schema_version": "2.1",
-  "ontology_id": "llm_synthetic_human_design_v2",
   "title": "Combinatorial State Space of LLM-Based Synthetic Human-Behavior Generation Designs",
   "summary": "A typed, machine-readable taxonomy of design choices researchers and practitioners face when generating silicon human-behavior data with LLMs. The `meta` block defines the algebra (variable types, roles, stages, cardinalities, relations, outcome modes); `dimensions` holds the typed tree; `constraints` encodes cross-tree compatibility; `presets` defines named curated subsets for tractable enumeration.",
   "meta": {
@@ -3755,8 +3753,8 @@
           "_meta": {
             "label": "benchmark_source_type",
             "desc": "",
-            "cardinality": "at_most_k",
-            "k": 3,
+            "cardinality": "at_least_one",
+            "k": null,
             "stage": [
               "design"
             ],
@@ -3764,8 +3762,7 @@
               "design_variable"
             ],
             "optional": false,
-            "tags": [],
-            "k_note": "max 3 source types per configuration; none_unsupervised_simulation is mutually exclusive with real sources via C045"
+            "tags": []
           },
           "children": {
             "experimental_dataset": {
@@ -4285,12 +4282,7 @@
                 "label": "missingness_acceptability",
                 "desc": "",
                 "var_type": "proportion",
-                "value_space": {
-                  "min": 0.0,
-                  "max": 1.0,
-                  "unit": "proportion_missing",
-                  "ordered": true
-                },
+                "value_space": null,
                 "roles": [
                   "design_variable"
                 ],
@@ -5606,12 +5598,7 @@
                 "label": "precision_targeted_sample_size",
                 "desc": "",
                 "var_type": "count",
-                "value_space": {
-                  "min": 50,
-                  "max": 100000,
-                  "unit": "n_respondents",
-                  "ordered": true
-                },
+                "value_space": null,
                 "roles": [
                   "design_variable"
                 ],
@@ -5657,12 +5644,7 @@
                 "label": "power_targeted_sample_size",
                 "desc": "",
                 "var_type": "count",
-                "value_space": {
-                  "min": 50,
-                  "max": 100000,
-                  "unit": "n_respondents",
-                  "ordered": true
-                },
+                "value_space": null,
                 "roles": [
                   "design_variable"
                 ],
@@ -6833,7 +6815,7 @@
           "_meta": {
             "label": "model_capability_regime",
             "desc": "",
-            "cardinality": "at_least_one",
+            "cardinality": "any_subset",
             "k": null,
             "stage": [
               "design"
@@ -7708,12 +7690,7 @@
                 "label": "model_as_continuous_proxy",
                 "desc": "",
                 "var_type": "continuous",
-                "value_space": {
-                  "min": 0.0,
-                  "max": 1.0,
-                  "unit": "MMLU_proxy",
-                  "ordered": true
-                },
+                "value_space": null,
                 "roles": [
                   "design_variable"
                 ],
@@ -10705,9 +10682,7 @@
                 "stage": [
                   "design"
                 ],
-                "requires": [
-                  "contextual_conditioning.persona_demographic_conditioning.geography_specification"
-                ],
+                "requires": [],
                 "forbids": [],
                 "enables": [],
                 "outcome_modes": [],
@@ -10981,12 +10956,7 @@
                     "label": "exact_age",
                     "desc": "",
                     "var_type": "count",
-                    "value_space": {
-                      "min": 18,
-                      "max": 99,
-                      "unit": "years",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -11166,12 +11136,7 @@
                     "label": "gender_role_orientation",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -11734,12 +11699,7 @@
                     "label": "authoritarianism_score",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -11762,12 +11722,7 @@
                     "label": "populism_attitude",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -12263,12 +12218,7 @@
                     "label": "need_for_cognition",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -12291,12 +12241,7 @@
                     "label": "risk_preference",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -12319,12 +12264,7 @@
                     "label": "trust_disposition",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -12347,12 +12287,7 @@
                     "label": "self_efficacy",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -12375,12 +12310,7 @@
                     "label": "locus_of_control",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -12470,12 +12400,7 @@
                     "label": "incentive_salience",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -12498,12 +12423,7 @@
                     "label": "social_desirability_concern",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -12526,12 +12446,7 @@
                     "label": "compliance_motivation",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -12688,12 +12603,7 @@
                     "label": "affect_valence",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -12716,12 +12626,7 @@
                     "label": "affect_arousal",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -12809,12 +12714,7 @@
                     "label": "uncertainty_state",
                     "desc": "",
                     "var_type": "continuous",
-                    "value_space": {
-                      "min": -3.0,
-                      "max": 3.0,
-                      "unit": "z-score",
-                      "ordered": true
-                    },
+                    "value_space": null,
                     "roles": [
                       "design_variable"
                     ],
@@ -12894,7 +12794,7 @@
             "role": [
               "design_variable"
             ],
-            "optional": true,
+            "optional": false,
             "tags": []
           },
           "children": {
@@ -25721,8 +25621,8 @@
           "_meta": {
             "label": "evaluation_target",
             "desc": "",
-            "cardinality": "at_most_k",
-            "k": 2,
+            "cardinality": "at_least_one",
+            "k": null,
             "stage": [
               "design"
             ],
@@ -25730,8 +25630,7 @@
               "design_variable"
             ],
             "optional": false,
-            "tags": [],
-            "k_note": "max 2 primary evaluation targets per configuration"
+            "tags": []
           },
           "children": {
             "individual_ranking_recovery": {
@@ -26128,8 +26027,8 @@
           "_meta": {
             "label": "metric_family",
             "desc": "",
-            "cardinality": "at_most_k",
-            "k": 3,
+            "cardinality": "at_least_one",
+            "k": null,
             "stage": [
               "design"
             ],
@@ -26137,8 +26036,7 @@
               "design_variable"
             ],
             "optional": false,
-            "tags": [],
-            "k_note": "max 3 metric families; must be jointly compatible with chosen analysis_model_structure"
+            "tags": []
           },
           "children": {
             "correlation_metrics": {
@@ -26146,8 +26044,8 @@
               "_meta": {
                 "label": "correlation_metrics",
                 "desc": "",
-                "cardinality": "exactly_k",
-                "k": 1,
+                "cardinality": "at_least_one",
+                "k": null,
                 "stage": [
                   "design"
                 ],
@@ -26268,8 +26166,8 @@
               "_meta": {
                 "label": "distribution_metrics",
                 "desc": "",
-                "cardinality": "exactly_k",
-                "k": 1,
+                "cardinality": "at_least_one",
+                "k": null,
                 "stage": [
                   "design"
                 ],
@@ -26465,8 +26363,8 @@
               "_meta": {
                 "label": "prediction_error_metrics",
                 "desc": "",
-                "cardinality": "exactly_k",
-                "k": 1,
+                "cardinality": "at_least_one",
+                "k": null,
                 "stage": [
                   "design"
                 ],
@@ -26613,8 +26511,8 @@
               "_meta": {
                 "label": "classification_metrics",
                 "desc": "",
-                "cardinality": "exactly_k",
-                "k": 1,
+                "cardinality": "at_least_one",
+                "k": null,
                 "stage": [
                   "design"
                 ],
@@ -26786,8 +26684,8 @@
               "_meta": {
                 "label": "calibration_metrics",
                 "desc": "",
-                "cardinality": "exactly_k",
-                "k": 1,
+                "cardinality": "at_least_one",
+                "k": null,
                 "stage": [
                   "design"
                 ],
@@ -26883,8 +26781,8 @@
               "_meta": {
                 "label": "reliability_metrics",
                 "desc": "",
-                "cardinality": "exactly_k",
-                "k": 1,
+                "cardinality": "at_least_one",
+                "k": null,
                 "stage": [
                   "design"
                 ],
@@ -26978,8 +26876,8 @@
               "_meta": {
                 "label": "structural_metrics",
                 "desc": "",
-                "cardinality": "exactly_k",
-                "k": 1,
+                "cardinality": "at_least_one",
+                "k": null,
                 "stage": [
                   "design"
                 ],
@@ -27098,8 +26996,8 @@
               "_meta": {
                 "label": "ranking_metrics",
                 "desc": "",
-                "cardinality": "exactly_k",
-                "k": 1,
+                "cardinality": "at_least_one",
+                "k": null,
                 "stage": [
                   "design"
                 ],
@@ -27192,8 +27090,8 @@
               "_meta": {
                 "label": "survival_metrics",
                 "desc": "",
-                "cardinality": "exactly_k",
-                "k": 1,
+                "cardinality": "at_least_one",
+                "k": null,
                 "stage": [
                   "design"
                 ],
@@ -27261,8 +27159,8 @@
               "_meta": {
                 "label": "text_metrics",
                 "desc": "",
-                "cardinality": "exactly_k",
-                "k": 1,
+                "cardinality": "at_least_one",
+                "k": null,
                 "stage": [
                   "design"
                 ],
@@ -27566,8 +27464,8 @@
           "_meta": {
             "label": "generalization_test",
             "desc": "",
-            "cardinality": "exactly_k",
-            "k": 1,
+            "cardinality": "at_least_one",
+            "k": null,
             "stage": [
               "design"
             ],
@@ -27575,8 +27473,7 @@
               "design_variable"
             ],
             "optional": false,
-            "tags": [],
-            "k_note": "exactly one generalization scope per configuration; prevents picking locale+cross-cultural+new-population simultaneously"
+            "tags": []
           },
           "children": {
             "same_dataset_same_domain": {
@@ -27638,9 +27535,7 @@
                 "stage": [
                   "design"
                 ],
-                "requires": [
-                  "contextual_conditioning.persona_demographic_conditioning.geography_specification"
-                ],
+                "requires": [],
                 "forbids": [],
                 "enables": [],
                 "outcome_modes": [],
@@ -27883,15 +27778,15 @@
           "_meta": {
             "label": "subgroup_evaluation",
             "desc": "",
-            "cardinality": "at_most_k",
-            "k": 2,
+            "cardinality": "any_subset",
+            "k": null,
             "stage": [
               "design"
             ],
             "role": [
               "design_variable"
             ],
-            "optional": true,
+            "optional": false,
             "tags": []
           },
           "children": {
@@ -27977,9 +27872,7 @@
                 "stage": [
                   "design"
                 ],
-                "requires": [
-                  "contextual_conditioning.persona_demographic_conditioning.geography_specification"
-                ],
+                "requires": [],
                 "forbids": [],
                 "enables": [],
                 "outcome_modes": [],
@@ -28199,7 +28092,7 @@
           "_meta": {
             "label": "analysis_model_structure",
             "desc": "",
-            "cardinality": "exactly_one",
+            "cardinality": "at_least_one",
             "k": null,
             "stage": [
               "design"
@@ -32140,55 +32033,6 @@
       "rationale": "A persona-constrained system prompt should be aligned with conditioning variables applied at the user-turn level.",
       "severity": "soft",
       "stage": null
-    },
-    {
-      "id": "C045",
-      "relation": "forbids",
-      "if": [
-        "human_benchmark_data_design.benchmark_source_type.none_unsupervised_simulation"
-      ],
-      "then": [
-        "human_benchmark_data_design.benchmark_source_type.experimental_dataset",
-        "human_benchmark_data_design.benchmark_source_type.survey_dataset",
-        "human_benchmark_data_design.benchmark_source_type.panel_dataset",
-        "human_benchmark_data_design.benchmark_source_type.administrative_dataset",
-        "human_benchmark_data_design.benchmark_source_type.observational_behavioral_log",
-        "human_benchmark_data_design.benchmark_source_type.controlled_lab_task_dataset",
-        "human_benchmark_data_design.benchmark_source_type.field_experiment_dataset",
-        "human_benchmark_data_design.benchmark_source_type.published_summary_statistics",
-        "human_benchmark_data_design.benchmark_source_type.public_psychometric_repository"
-      ],
-      "rationale": "none_unsupervised_simulation means no human benchmark data at all; it cannot co-exist with any real data source type in the same configuration.",
-      "severity": "hard",
-      "stage": "design"
-    },
-    {
-      "id": "C046",
-      "relation": "mutually_exclusive",
-      "if": [
-        "evaluation_and_validation_framework.metric_family.ranking_metrics",
-        "evaluation_and_validation_framework.metric_family.survival_metrics",
-        "evaluation_and_validation_framework.metric_family.text_metrics"
-      ],
-      "then": [],
-      "rationale": "ranking_metrics, survival_metrics, and text_metrics each require a structurally incompatible analysis outcome. With exactly_one analysis_model_structure, no two of these three can be simultaneously satisfied.",
-      "severity": "hard",
-      "stage": "design"
-    },
-    {
-      "id": "C047",
-      "relation": "requires",
-      "if": [
-        "research_problem_formulation.intended_scientific_function.descriptive_individual_pointwise"
-      ],
-      "then": [
-        "synthetic_population_specification.persona_identity_structure.stable_synthetic_identities",
-        "synthetic_population_specification.persona_identity_structure.reusable_panel_identities",
-        "synthetic_population_specification.persona_identity_structure.multi_role_identities"
-      ],
-      "rationale": "Pointwise individual-level description requires a persistent synthetic identity across items. Global mirror of the leaf-local requires rule; makes it visible in constraint coverage reports.",
-      "severity": "hard",
-      "stage": "design"
     }
   ],
   "presets": {
@@ -32242,23 +32086,5 @@
       ],
       "conventional_only": false
     }
-  },
-  "_patch_notes": {
-    "2.1": [
-      "analysis_model_structure: at_least_one → exactly_one",
-      "evaluation_target: at_least_one → at_most_k(2)",
-      "model_capability_regime: any_subset → at_least_one",
-      "metric_family: at_least_one → at_most_k(3)",
-      "behavioral_history_conditioning: optional False → True",
-      "value_space added to 19 continuous/count leaves",
-      "C045: none_unsupervised forbids co-selection with real source types",
-      "C046: mutually_exclusive(ranking_metrics, survival_metrics, text_metrics)",
-      "C047: descriptive_individual_pointwise → stable identity (global mirror of leaf-local rule)",
-      "generalization_test: at_least_one → exactly_k(1)",
-      "subgroup_evaluation: any_subset → at_most_k(2) optional=True",
-      "cross_cultural_fidelity + locale_specific_adapted_wording + new_population_same_domain: added local requires for geography_specification",
-      "benchmark_source_type: at_least_one → at_most_k(3)",
-      "metric_family sub-groups: at_least_one → exactly_k(1) (one representative metric per selected family)"
-    ]
   }
 }

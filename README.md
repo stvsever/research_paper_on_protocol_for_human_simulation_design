@@ -51,7 +51,7 @@ An eight-stage pipeline applies a machine-readable ontology (1,149 design choice
 
 ## 🧬 Ontology Overview
 
-![Circular radial diagram of the 18-dimension LLM simulation design ontology](src/ontologies/ontology_overview.png)
+![Circular radial diagram of the 18-dimension LLM simulation design ontology](src/ontologies/figures/ontology_overview_v2.png)
 
 The simulation design space is formalized as a machine-readable ontology of 1,149 leaf design choices organized across 18 top-level dimensions and 212 hierarchical groups. Each dimension covers a distinct stage of the simulation pipeline — from research problem formulation and model selection through prompt architecture, contextual conditioning, generation controls, and governance. Hard constraints (44 total) encode cross-tree incompatibilities, cardinality rules govern how many choices may be selected per group, and a constraint-aware sampler draws eligible configurations for empirical evaluation.
 

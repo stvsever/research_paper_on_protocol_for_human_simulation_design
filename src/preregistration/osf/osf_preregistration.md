@@ -1,6 +1,6 @@
 # Preregistration: A Data-Driven Protocol for LLM-Based Simulation of Human Behavior
 
-Preregistration version: 1.3 draft for OSF registration  
+Preregistration version: 1.4 draft for OSF registration  
 Date: 2026-04-25  
 Author: Stijn Van Severen  
 Contact: stijn.vanseveren@ugent.be  
@@ -49,7 +49,7 @@ The simulation design space is defined by:
 3. `src/ontologies/sample_configurations.py`: CLI sampler that returns eligible configurations after applying cardinality rules and hard constraints.
 4. `src/ontologies/samples/eligible_samples.txt`: example output format.
 5. `src/preregistration/deviations.md`: public log for pilot-driven and full-study deviations.
-6. `data/README.md` and `data/sources_manifest.json`: raw-source staging notes, source URLs, dataset-domain descriptions, DOI status where available, and manual retrieval instructions.
+6. `src/data/README.md` and `src/data/sources_manifest.json`: raw-source staging notes, source URLs, dataset-domain descriptions, DOI status where available, and manual retrieval instructions.
 
 The ontology encodes design features as leaf nodes with metadata including variable type, stage, role, outcome modes, local requires/forbids, tags, cost class, and compatibility notes. Hard constraints are applied before a sampled configuration is considered eligible. Soft and advisory constraints are retained for analysis but do not invalidate configurations.
 
@@ -61,8 +61,8 @@ Primary candidate datasets:
 
 | Dataset | Domain family | Prediction context | Planned role | Data-staging status |
 | --- | --- | --- | --- | --- |
-| AIID: Attitudes, Identities, and Individual Differences | Individual differences, identity, explicit/implicit social attitudes, psychometrics | Person-level explicit attitudes, implicit attitudes, identities, demographics, and individual-difference measures collected via Project Implicit | Mandatory primary dataset for inter-individual heterogeneity | Confirmatory subset downloaded to `data/raw/aiid/` |
-| Project Implicit Demo Website Datasets: Race IAT staged first | Implicit cognition, reaction-time social cognition, explicit attitudes, intergroup bias | IAT scores, explicit race attitudes, demographics, and task metadata; other Project Implicit domains may be added as separate dataset-family strata | Primary social-cognition dataset family | Race IAT 2025 archive and codebooks downloaded to `data/raw/project_implicit_demo/race_iat/` |
+| AIID: Attitudes, Identities, and Individual Differences | Individual differences, identity, explicit/implicit social attitudes, psychometrics | Person-level explicit attitudes, implicit attitudes, identities, demographics, and individual-difference measures collected via Project Implicit | Mandatory primary dataset for inter-individual heterogeneity | Confirmatory subset downloaded to `src/data/raw/aiid/` |
+| Project Implicit Demo Website Datasets: Race IAT staged first | Implicit cognition, reaction-time social cognition, explicit attitudes, intergroup bias | IAT scores, explicit race attitudes, demographics, and task metadata; other Project Implicit domains may be added as separate dataset-family strata | Primary social-cognition dataset family | Race IAT 2025 archive and codebooks downloaded to `src/data/raw/project_implicit_demo/race_iat/` |
 | ANES Time Series Cumulative File | Political behavior, elections, ideology, issue positions, public opinion | Vote choice, party identification, ideology, policy preferences, demographics, and election-year context | Primary political-behavior dataset | Current codebook downloaded; raw data file requires manual ANES retrieval |
 | General Social Survey | US social attitudes, demographics, behavior, religion, morality, social norms | Survey responses across attitudes, institutions, social behavior, demographics, and social change | Primary broad social-survey dataset | Current codebook downloaded; raw extract requires GSS Data Explorer or official GSS retrieval |
 | European Social Survey | Cross-national European attitudes, politics, trust, well-being, social behavior | Country/round/respondent-level predictors and survey outcomes across European countries | Cross-national validation dataset | Zenodo metadata downloaded; direct raw-data curl returned 403, manual browser download required |
@@ -155,9 +155,7 @@ The ten-level MMLU range (0.35–0.93, span ≈ 0.58) is designed to provide den
 - The LFM 2.5 1.2B MMLU must be confirmed from the Liquid AI published model card before pilot execution. If no model with documented MMLU ≤ 0.43 is available at execution time, the 0.35 anchor will be replaced by `meta-llama/llama-3.2-1b-instruct` (0.493) and logged as a deviation; a range-restriction sensitivity analysis is then preregistered (see Section 19, item 18).
 - If the LFM 2.5 1.2B documented MMLU differs from the 0.35 estimate by more than 0.05, it will be retained as the lowest-available anchor and the realized value used as the continuous model-capability variable in analysis.
 
-Tie-breaking rule: if two available models are equally close to a target MMLU value, select the lower-cost model if token pricing differs by at least 20 percent; otherwise select the model from the provider family less represented in the current tier set. The realized MMLU score will be used as the model-capability variable in all analyses.
-
-Tie-breaking rule: if two available models are equally close to a target MMLU value, select the lower-cost model if token pricing differs by at least 20 percent; otherwise select the model from the provider family less represented in the current pilot set. The realized MMLU score will be treated as the model-capability variable in analysis.
+Tie-breaking rule: if two available models are equally close to a target MMLU value, select the lower-cost model if token pricing differs by at least 20 percent; otherwise select the model from the provider family less represented in the current tier set. The realized MMLU score will be used as the continuous model-capability variable in all analyses.
 
 ### 10.3 Pilot Critic-Actor Levels
 
@@ -217,6 +215,20 @@ Coverage rules for the full sample:
 
 The planned target is at least 500 eligible full-study configurations and at least 3,000 valid configuration-dataset-task cells. If fewer cells are feasible, the study will proceed only if at least 200 eligible configurations and 1,000 valid cells remain; otherwise the full confirmatory analysis will be relabeled exploratory.
 
+### 11.1 Combinatorial State Space and Tractability
+
+The full ontology encodes 1,149 leaf-level design choices across 18 dimensions with mixed cardinality modes (exactly_one, at_least_one, any_subset, etc.) and 44 hard cross-tree constraints. Even under the most conservative estimate—treating each `exactly_one` dimension independently—the eligible state space exceeds 10^30 distinct configurations. Exhaustive enumeration is therefore infeasible; coverage must be achieved through principled stratification rather than completeness.
+
+The primary strategy is three-stage: (a) a **stratified core draw** using the `conventional_core` preset, ensuring coverage of well-validated design families; (b) a **broad random draw** from the full eligible space after constraint filtering, to sample non-conventional combinations; and (c) a **targeted supplementary draw** for ontology branches underrepresented after (a)–(b), specifically subtrees such as multi-agent orchestration, fine-tuning strategies, and multimodal stimuli. Each stage uses a distinct fixed seed and records all candidates scanned.
+
+Coverage is monitored post-hoc by:
+
+1. **Marginal coverage:** for each `exactly_one` group, every legal level must appear in at least one sampled configuration.
+2. **Pairwise coverage:** for every pair of top-level ontology dimensions, at least 10 training rows must contain a distinct combination of dimension-level selections.
+3. **Scan efficiency:** if the `conventional_core` draw yields fewer than 200 eligible configurations within a scan limit of 50,000 candidates, the scan limit is raised to 200,000 before relaxing the conventional-only filter. If 500 configurations still cannot be reached, the study proceeds with the available pool and the effective coverage is reported explicitly alongside any resulting range-restriction caveats.
+
+This staged design is preferable to purely random sampling because it prevents implicit range restriction—accidentally sampling only configurations that satisfy constraints easily (typically the conventional or minimal-setting cluster)—while remaining computationally feasible without requiring a formal space-filling design over the non-Euclidean, constraint-dense configuration space.
+
 ## 12. Outcome Metrics
 
 The primary target for the ML analysis is a standardized silicon-human fidelity score (SHFS) computed for each configuration-dataset-task cell.
@@ -241,6 +253,8 @@ Definitions:
 2. `S_null` or `L_null`: task-appropriate null baseline, such as marginal human response distribution, majority class, mean response, or survey-weighted population average.
 3. `S_ceiling` or `L_human_ceiling`: estimated human split-half, bootstrap, or train-test reliability ceiling where available.
 4. `clip`: values below 0 are set to 0 and values above 1 are set to 1 for the primary aggregate; unclipped scores will be retained for sensitivity analyses.
+
+**Edge-case handling for degenerate baselines.** If S_ceiling ≤ S_null for a given task (i.e., the human split-half or test reliability is at or below the null baseline—indicating a floor-reliability task), the SHFS formula is undefined or degenerate. Such tasks will be: (1) excluded from the primary SHFS aggregate for that cell; (2) reported in a separate "floor-reliability stratum" to document that the benchmark task lacks the reliability required for meaningful silicon-human comparison; and (3) included in the failure-mode analysis (§18). If S_ceiling is unavailable (no split-half or test–retest estimate exists for a dataset-task), a conservative ceiling of 1.0 is substituted, with a note that this may understate fidelity relative to the true human ceiling. Sensitivity of primary conclusions to ceiling imputation is tested in supplementary analysis (§19, item 20).
 
 Metric families by outcome type:
 
@@ -549,6 +563,9 @@ Planned supplementary analyses:
 18. Range-restriction analysis for pilot MMLU anchor: if the lowest pilot MMLU target (0.35) cannot be filled with a model whose documented MMLU is ≤ 0.43 at execution time, report the effective MMLU range used, estimate the expected attenuation in capability–SHFS slope given the reduced range, and flag any MMLU-related conclusions as potentially conservative.
 19. LASSO stability-selection path: report which ontology branch aggregates and leaf indicators remain non-zero as the LASSO penalty increases from near-zero to sparse, using the same training set and preprocessing as the primary OLS model. This provides a data-driven feature-importance ranking that is orthogonal to SHAP.
 20. XGBoost calibration check: compare predicted versus actual SHFS on the held-out test set using a calibration plot and report the calibration slope and intercept; over- or under-confidence in SHFS predictions will be reported as a limitation of the SHAP rankings.
+21. Semantic embedding cluster analysis: each benchmark item or item group will be represented as a concatenated text string (item wording + response options + dataset context descriptor) and embedded using a single frozen, non-fine-tuned text-embedding model applied uniformly across all datasets (e.g., OpenAI `text-embedding-3-large` or an equivalent open model). In the resulting high-dimensional embedding space, items are clustered using k-means (k selected via gap statistic, minimum k = 3, maximum k = 20) and hierarchical agglomerative clustering (Ward linkage; dendrogram truncated at 10 levels). SHFS values are then regressed on cluster membership as a categorical predictor, controlling for dataset-family and outcome mode fixed effects, to test whether semantically coherent item groups show systematically different fidelity profiles beyond what dataset-family labels capture. This analysis identifies cross-dataset fidelity zones—e.g., whether LLMs consistently underperform on morally ambiguous items or items with rare demographic conditioning—independent of the nominal dataset grouping. Results reported as: (a) 2D UMAP projections of item embeddings colored by SHFS; (b) cluster-level SHFS box plots; (c) partial R² of embedding-cluster membership in the primary OLS model; and (d) qualitative description of the three highest- and three lowest-SHFS semantic clusters.
+22. Training-data contamination sensitivity: several benchmark datasets are publicly available and may appear in LLM pre-training corpora, creating a risk that high SHFS reflects text memorization rather than generalizable behavioral simulation. A contamination-detection probe will compute model perplexity on held-out human response text versus shuffled-response baselines; systematic perplexity reduction on original text relative to shuffled text is flagged as a contamination indicator. Datasets flagged as potentially contaminated will be excluded in a sensitivity re-run of the primary ML analysis, and the change in top-ranked design features will be reported. Models with a documented pre-training cutoff will additionally be assessed by whether their cutoff pre-dates the public release of each dataset.
+23. Floor-reliability stratum analysis: all configuration-dataset-task cells excluded from primary SHFS due to degenerate baselines (§12) will be analyzed as a separate stratum. Descriptive statistics of their raw performance scores, parse failure rates, and outcome modes will be reported to document which task families are structurally resistant to silicon-human comparison under current reliability conditions.
 
 ## 20. Ethics, Privacy, and Governance
 
@@ -563,6 +580,8 @@ Safeguards:
 5. The study will not release row-level synthetic data that could be mistaken for real individuals without clear labeling and documentation.
 6. The final protocol will explicitly state that high fidelity on benchmark datasets does not imply ethical permissibility for manipulative, deceptive, or high-stakes deployment.
 7. The study will distinguish methodological validation from authorization to replace human evidence in policy, clinical, legal, or electoral settings.
+8. **Training-data contamination disclosure.** Several benchmark datasets are publicly available and may have appeared in LLM pre-training corpora. This does not invalidate the study's design-choice comparisons (contamination affects all configurations for a given model equally), but it means that absolute SHFS values may overstate generalizable simulation fidelity. All published results will clearly note this risk and report the contamination-sensitivity analysis (§19, item 22).
+9. **MMLU as capability proxy.** MMLU is used as a continuous model-capability covariate because it is consistently documented across providers. However, models with identical MMLU scores may differ substantially on social-science-relevant tasks (e.g., theory-of-mind, cultural knowledge, value alignment). MMLU-related findings will be described as estimates of the capability–fidelity relationship along the MMLU dimension specifically, with a limitation note that other capability dimensions (instruction-following, calibration, cultural competence) are not independently captured.
 
 ## 21. Reproducibility Plan
 
@@ -614,7 +633,7 @@ The protocol will be presented as both prose and a structured checklist/decision
 
 ## 24. References and Source Verification
 
-Dataset, model-source, and DOI checks were performed on 2026-04-25. Raw-source staging notes are stored in `data/README.md`, and machine-readable source status is stored in `data/sources_manifest.json`. Final dataset inclusion will additionally depend on license review, exact file availability, and task-level preprocessing feasibility at execution time.
+Dataset, model-source, and DOI checks were performed on 2026-04-25. Raw-source staging notes are stored in `src/data/README.md`, and machine-readable source status is stored in `src/data/sources_manifest.json`. Final dataset inclusion will additionally depend on license review, exact file availability, and task-level preprocessing feasibility at execution time.
 
 ### 24.1 Dataset and Model Sources
 
@@ -628,7 +647,7 @@ Dataset, model-source, and DOI checks were performed on 2026-04-25. Raw-source s
 | World Values Survey | Official documentation page checked; raw data requires WVSA-mediated/manual retrieval | WVS Wave 7 dataset DOI listed by WVS: `10.14281/18241.17` |
 | Moral Machine | Nature article and OSF data files checked; documentation and small auxiliary files downloaded; large response archives deferred | DOI: `10.1038/s41586-018-0637-6` |
 | Psych-101 / Centaur | Nature article and Hugging Face dataset card checked; dataset card downloaded; large files deferred | DOI: `10.1038/s41586-025-09215-4` |
-| LM Market Cap benchmark table | Used for higher-capability pilot MMLU anchors; values frozen in `data/raw/model_benchmarks/mmlu_pilot_model_mapping.csv` | Source: https://lmmarketcap.com/benchmarks; no DOI |
+| LM Market Cap benchmark table | Used for higher-capability pilot MMLU anchors; values frozen in `src/data/raw/model_benchmarks/mmlu_pilot_model_mapping.csv` | Source: https://lmmarketcap.com/benchmarks; no DOI |
 | Meta Llama 3.2 model card | Used for MMLU anchors at targets 0.49 and 0.63 | Source: https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct; no DOI |
 | Liquid AI LFM 2.5 model documentation | Used for lowest MMLU pilot anchor (target 0.35); MMLU TBD — must be confirmed from published Liquid AI benchmarks before pilot execution | Source: https://www.liquid.ai/liquid-foundation-models; no DOI |
 | OpenRouter API and rankings | API availability checked for all ten pilot model IDs via `/api/v1/models` endpoint on 2026-04-25; all ten IDs confirmed present in the model list | Sources: https://openrouter.ai/rankings and https://openrouter.ai/docs/api-reference/list-endpoints-for-a-model; no DOI |
@@ -648,7 +667,20 @@ Dataset, model-source, and DOI checks were performed on 2026-04-25. Raw-source s
 11. OpenRouter. (2026). Rankings and API documentation. https://openrouter.ai/rankings and https://openrouter.ai/docs/api-reference/list-endpoints-for-a-model
 12. Meta. (2024). Llama 3.2 1B Instruct model card. https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct
 13. Liquid AI. (2025). LFM 2.5 model family documentation. https://www.liquid.ai/liquid-foundation-models (MMLU benchmark values to be confirmed from published model card before pilot execution.)
-14. Cameron, A. C., & Miller, D. L. (2015). A practitioner's guide to cluster-robust inference. Journal of Human Resources, 50(2), 317–372. https://doi.org/10.3368/jhr.50.2.317
+14. Cameron, A. C., & Miller, D. L. (2015). A practitioner's guide to cluster-robust inference. *Journal of Human Resources*, *50*(2), 317–372. https://doi.org/10.3368/jhr.50.2.317
+
+**Methodological works cited:**
+
+15. Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*, 785–794. https://doi.org/10.1145/2939672.2939785
+16. Lundberg, S. M., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. *Advances in Neural Information Processing Systems*, *30*, 4765–4774.
+17. Lundberg, S. M., Erion, G., Chen, H., DeGrave, A., Prutkin, J. M., Nair, B., Katz, R., Himmelfarb, J., Bansal, N., & Lee, S.-I. (2020). From local explanations to global understanding with explainable AI for trees. *Nature Machine Intelligence*, *2*, 56–67. https://doi.org/10.1038/s42256-019-0138-9
+18. Hendrycks, D., Burns, C., Basart, S., Zou, A., Mazeika, M., Song, D., & Steinhardt, J. (2021). Measuring massive multitask language understanding. *International Conference on Learning Representations*. https://arxiv.org/abs/2009.03300
+19. Argyle, L. P., Busby, E. C., Fulda, N., Gubler, J. R., Rytting, C., & Wingate, D. (2023). Out of one, many: Using language models to simulate human samples. *Political Analysis*, *31*(3), 337–351. https://doi.org/10.1017/pan.2023.2
+20. Bisbee, J., Clinton, J., Dorff, C., Kenkel, B., & Larson, J. (2023). Synthetic replacements for human survey data? The perils of large language models. *Political Analysis*, 1–14. https://doi.org/10.1017/pan.2023.18
+21. Santurkar, S., Durmus, E., Ladd, F., Lee, E., Liang, P., & Hashimoto, T. (2023). Whose opinions do language models reflect? *Proceedings of the 40th International Conference on Machine Learning*, 29971–30004.
+22. Bail, C. A. (2024). Can generative AI improve social science? *Proceedings of the National Academy of Sciences*, *121*(21), e2314021121. https://doi.org/10.1073/pnas.2314021121
+23. Tjuatja, L., Chen, V., Wu, T., Talwalkwar, A., & Neubig, G. (2024). Do LLMs exhibit human-like response biases? A case study in survey research. *Transactions of the Association for Computational Linguistics*, *12*, 1011–1026. https://doi.org/10.1162/tacl_a_00685
+24. Optuna Development Team. (2019). Optuna: A next-generation hyperparameter optimization framework. *Proceedings of the 25th ACM SIGKDD*, 2623–2631. https://doi.org/10.1145/3292500.3330701
 
 ### 24.3 OpenRouter Key and Model Availability Check
 

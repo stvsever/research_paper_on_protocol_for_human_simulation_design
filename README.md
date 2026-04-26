@@ -274,16 +274,16 @@ The simulation design space is encoded in `src/ontologies/ontology.json` as 18 t
 
 The study uses eight open-access human behavioral datasets spanning seven prediction-context families. For detailed data-staging status, source URLs, DOIs, and manual retrieval instructions see [`src/data/README.md`](src/data/README.md).
 
-| Dataset | Domain | Data status |
-|---|---|---|
-| AIID | Individual differences, explicit/implicit attitudes | Confirmatory subset downloaded |
-| Project Implicit Race IAT | Implicit cognition, intergroup bias | 2025 archive and codebooks downloaded |
-| ANES CDF | Political behavior, elections | Codebook downloaded; **raw data: manual retrieval** |
-| GSS | US social attitudes and behavior | Codebook downloaded; **raw data: manual retrieval** |
-| ESS | Cross-national European attitudes | Zenodo metadata downloaded; **raw `.dta`: browser download** |
-| WVS | Global values, culture, religion | **Manual retrieval required** |
-| Moral Machine | Moral dilemmas, cross-cultural ethics | Documentation downloaded; large archives deferred |
-| Psych-101/Centaur | Trial-by-trial cognition | Dataset card downloaded; large files deferred |
+| Dataset | Domain | Data status | Access |
+|---|---|---|---|
+| AIID | Individual differences, explicit/implicit attitudes | Confirmatory subset downloaded | [osf.io/pcjwf](https://osf.io/pcjwf/) — CC-BY 4.0 |
+| Project Implicit Race IAT | Implicit cognition, intergroup bias | 2025 archive and codebooks downloaded | [osf.io/52qxl](https://osf.io/52qxl/) — data-use agreement required |
+| ANES CDF | Political behavior, elections | Codebook downloaded; **raw data: manual retrieval** | [electionstudies.org](https://electionstudies.org/data-center/anes-time-series-cumulative-data-file/) — free registration |
+| GSS | US social attitudes and behavior | Codebook downloaded; **raw data: manual retrieval** | [gss.norc.org](https://gss.norc.org/content/norc/us/en/gss/get-the-data.html) — free registration |
+| ESS | Cross-national European attitudes | Zenodo metadata downloaded; **raw `.dta`: browser download** | [doi.org/10.5281/zenodo.12799641](https://doi.org/10.5281/zenodo.12799641) — CC-BY 4.0 |
+| WVS | Global values, culture, religion | **Manual retrieval required** | [worldvaluessurvey.org](https://www.worldvaluessurvey.org/WVSDocumentationWV7.jsp) — WVSA terms |
+| Moral Machine | Moral dilemmas, cross-cultural ethics | Documentation downloaded; large archives deferred | [osf.io/3hvt2](https://osf.io/3hvt2/) — see OSF notes |
+| Psych-101/Centaur | Trial-by-trial cognition | Dataset card downloaded; large files deferred | [huggingface.co/datasets/marcelbinz/psych-101](https://huggingface.co/datasets/marcelbinz/psych-101) |
 
 ### Pilot Design
 
@@ -339,3 +339,47 @@ Any change after preregistration that affects sampling, datasets, metrics, model
 ## ⚖️ License
 
 The repository scaffold and ontology code are released under the [MIT License](LICENSE). Dataset files remain governed by their original source licenses and data-use terms. See [`src/data/README.md`](src/data/README.md) for per-source licensing notes.
+
+---
+
+## 📚 References
+
+**Datasets**
+
+Hussey, I., Hughes, S., & Nosek, B. A. (2018). *The implicit and explicit Attitudes, Identities, and Individual Differences (AIID) Dataset*. Open Science Framework. https://osf.io/pcjwf/
+
+Xu, K., Nosek, B. A., & Greenwald, A. G. (2014). Psychology data from the Race Implicit Association Test on the Project Implicit Demo website. *Journal of Open Psychology Data*, *2*(1), e3. https://doi.org/10.5334/jopd.ac
+
+American National Election Studies. (2026). *ANES Time Series Cumulative Data File* (current release February 5, 2026). https://electionstudies.org/data-center/anes-time-series-cumulative-data-file/
+
+NORC at the University of Chicago. (2026). *General Social Survey data and documentation*. https://gss.norc.org/content/norc/us/en/gss/get-the-data.html
+
+Mentesoglu Tardivo, C. (2024). *European Social Survey Data Round 1–11 merged* [Data set]. Zenodo. https://doi.org/10.5281/zenodo.12799641
+
+World Values Survey Association. (2022). *World Values Survey Wave 7 (2017–2022) Cross-National Data-Set* (Version 3.0.0). https://doi.org/10.14281/18241.17
+
+Awad, E., Dsouza, S., Kim, R., Schulz, J., Henrich, J., Shariff, A., Bonnefon, J.-F., & Rahwan, I. (2018). The Moral Machine experiment. *Nature*, *563*, 59–64. https://doi.org/10.1038/s41586-018-0637-6
+
+Binz, M., Akata, E., Bethge, M., et al. (2025). A foundation model to predict and capture human cognition. *Nature*, *644*, 1002–1009. https://doi.org/10.1038/s41586-025-09215-4
+
+**Methods and related work**
+
+Argyle, L. P., Busby, E. C., Fulda, N., Gubler, J. R., Rytting, C., & Wingate, D. (2023). Out of one, many: Using language models to simulate human samples. *Political Analysis*, *31*(3), 337–351. https://doi.org/10.1017/pan.2023.2
+
+Bail, C. A. (2024). Can generative AI improve social science? *Proceedings of the National Academy of Sciences*, *121*(21), e2314021121. https://doi.org/10.1073/pnas.2314021121
+
+Bisbee, J., Clinton, J., Dorff, C., Kenkel, B., & Larson, J. (2023). Synthetic replacements for human survey data? The perils of large language models. *Political Analysis*, 1–14. https://doi.org/10.1017/pan.2023.18
+
+Cameron, A. C., & Miller, D. L. (2015). A practitioner's guide to cluster-robust inference. *Journal of Human Resources*, *50*(2), 317–372. https://doi.org/10.3368/jhr.50.2.317
+
+Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*, 785–794. https://doi.org/10.1145/2939672.2939785
+
+Hendrycks, D., Burns, C., Basart, S., Zou, A., Mazeika, M., Song, D., & Steinhardt, J. (2021). Measuring massive multitask language understanding. *International Conference on Learning Representations*. https://arxiv.org/abs/2009.03300
+
+Lundberg, S. M., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. *Advances in Neural Information Processing Systems*, *30*, 4765–4774.
+
+Lundberg, S. M., Erion, G., Chen, H., DeGrave, A., Prutkin, J. M., Nair, B., Katz, R., Himmelfarb, J., Bansal, N., & Lee, S.-I. (2020). From local explanations to global understanding with explainable AI for trees. *Nature Machine Intelligence*, *2*, 56–67. https://doi.org/10.1038/s42256-019-0138-9
+
+Santurkar, S., Durmus, E., Ladd, F., Lee, E., Liang, P., & Hashimoto, T. (2023). Whose opinions do language models reflect? *Proceedings of the 40th International Conference on Machine Learning*, 29971–30004.
+
+Tjuatja, L., Chen, V., Wu, T., Talwalkwar, A., & Neubig, G. (2024). Do LLMs exhibit human-like response biases? A case study in survey research. *Transactions of the Association for Computational Linguistics*, *12*, 1011–1026. https://doi.org/10.1162/tacl_a_00685

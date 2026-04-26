@@ -46,11 +46,11 @@ Thumbs.db
 .cargo-tools/
 
 # All raw data — not versioned; retrieve manually per data/README.md
-data/raw/
-data/sources_manifest.json
+src/data/raw/
+src/data/sources_manifest.json
 
 # Generated / processed data
-data/interim/*
-data/processed/*
-!data/interim/.gitkeep
-!data/processed/.gitkeep
+src/data/interim/*
+src/data/processed/*
+!src/data/interim/.gitkeep
+!src/data/processed/.gitkeep

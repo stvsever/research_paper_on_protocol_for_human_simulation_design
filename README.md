@@ -20,7 +20,6 @@
 
 - [📝 Abstract](#-abstract)
 - [📊 Methodology Overview](#-methodology-overview)
-- [🧬 Ontology Overview](#-ontology-overview)
 - [🔑 Primary Results at a Glance](#-primary-results-at-a-glance)
 - [📌 Key Anticipated Contributions](#-key-anticipated-contributions)
 - [📄 Full Paper](#-full-paper)
@@ -46,14 +45,6 @@ Large language models (LLMs) are increasingly used to simulate human behavioral 
 ![Methodology flowchart: 8-stage pipeline from ontology to protocol derivation](src/preregistration/assets/figures/methodology_overview.png)
 
 An eight-stage pipeline applies a machine-readable ontology (1,149 design choices, 44 hard constraints) to sample eligible configurations, which are evaluated across eight benchmark datasets spanning seven behavioral domains. For each configuration-dataset-task cell, LLM-generated responses are compared to held-out human responses using the standardized silicon-human fidelity score (SHFS). The resulting feature matrix (ontology indicators, MMLU capability, dataset descriptors) is split 60/20/20 (train/validation/test) with grouped k-fold cross-validation. Two complementary models identify design features predicting fidelity: a transparent OLS/WLS linear model and an XGBoost ensemble with TreeSHAP. Evidence of convergence between both models yields a four-layer empirically validated protocol (universal core, domain-conditional rules, cost-tiered guidance, decision tree), validated on held-out configurations and dataset families.
-
----
-
-## 🧬 Ontology Overview
-
-![Circular radial diagram of the 18-dimension LLM simulation design ontology](src/ontologies/figures/ontology_overview_v2.png)
-
-The simulation design space is formalized as a machine-readable ontology of 1,149 leaf design choices organized across 18 top-level dimensions and 212 hierarchical groups. Each dimension covers a distinct stage of the simulation pipeline — from research problem formulation and model selection through prompt architecture, contextual conditioning, generation controls, and governance. Hard constraints (44 total) encode cross-tree incompatibilities, cardinality rules govern how many choices may be selected per group, and a constraint-aware sampler draws eligible configurations for empirical evaluation.
 
 ---
 

@@ -276,7 +276,7 @@ The study uses eight open-access human behavioral datasets spanning seven predic
 
 | Dataset | Domain | Data status | Access |
 |---|---|---|---|
-| AIID | Individual differences, explicit/implicit attitudes | Confirmatory subset downloaded | [osf.io/pcjwf](https://osf.io/pcjwf/) — CC-BY 4.0 |
+| AIID | Individual differences, social attitudes, identities, psychometrics | Confirmatory subset downloaded | [osf.io/pcjwf](https://osf.io/pcjwf/) — CC0 1.0 Universal |
 | Project Implicit Race IAT | Implicit cognition, intergroup bias | 2025 archive and codebooks downloaded | [osf.io/52qxl](https://osf.io/52qxl/) — data-use agreement required |
 | ANES CDF | Political behavior, elections | Codebook downloaded; **raw data: manual retrieval** | [electionstudies.org](https://electionstudies.org/data-center/anes-time-series-cumulative-data-file/) — free registration |
 | GSS | US social attitudes and behavior | Codebook downloaded; **raw data: manual retrieval** | [gss.norc.org](https://gss.norc.org/content/norc/us/en/gss/get-the-data.html) — free registration |
@@ -346,7 +346,7 @@ The repository scaffold and ontology code are released under the [MIT License](L
 
 **Datasets**
 
-Hussey, I., Hughes, S., & Nosek, B. A. (2018). *The implicit and explicit Attitudes, Identities, and Individual Differences (AIID) Dataset*. Open Science Framework. https://osf.io/pcjwf/
+Hussey, I., Hughes, S., Lai, C. K., Ebersole, C. R., Axt, J., & Nosek, B. A. (2012). *The Attitudes, Identities, and Individual Differences (AIID) Study and Dataset*. Open Science Framework. https://doi.org/10.17605/OSF.IO/PCJWF
 
 Xu, K., Nosek, B. A., & Greenwald, A. G. (2014). Psychology data from the Race Implicit Association Test on the Project Implicit Demo website. *Journal of Open Psychology Data*, *2*(1), e3. https://doi.org/10.5334/jopd.ac
 

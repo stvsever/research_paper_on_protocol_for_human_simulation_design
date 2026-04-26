@@ -569,108 +569,13 @@ Planned supplementary analyses:
 
 ### 19.1 Training-Data Contamination Protocol
 
-This subsection fully preregisters the detection pipeline, item-level risk scoring, corrected sampling strategy, and reporting plan for training-data contamination. It applies to all benchmark datasets and all design variables where contamination could differentially inflate SHFS.
+Contamination risk is assigned as a (dataset, model) pair, not per dataset alone, because a dataset released after a model's training cutoff cannot be contaminated in that model's weights. Documented cutoffs: GPT-4o mini Oct 2023; Llama 3.2 1B/3B/3.1 8B/3.3 70B Dec 2023; Gemma 2 27B ~Apr 2024; GPT-4o Apr 2024; Phi-4 Jun 2024; LFM 2.5 1.2B and GPT-5 TBD (confirmed before pilot). Against these cutoffs, seven of eight benchmark datasets (AIID 2018, Race IAT instrument ~2002, ANES ongoing, GSS ongoing, ESS rounds 1–11 from 2003, WVS Wave 7 2022, Moral Machine 2018) are Tier 3 — high-risk for all models — because their item text was publicly indexed well before every model's cutoff. Psych-101/Centaur (April 2025) is the single naturally clean dataset (Tier 0) for nine of ten models, requiring no probe-based filtering. Tier assignments are locked in `src/data/sources_manifest.json` before generation; GPT-5 and LFM cutoff confirmations are logged as deviations if they reclassify Psych-101.
 
-**Background and threat model.** Several benchmark datasets used in this study (AIID, Project Implicit, GSS, ANES, ESS, WVS) are publicly available and were almost certainly indexed by major web crawls before the training cutoff of frontier models. If an LLM was exposed to exact item text, response option labels, or aggregate response distributions during pre-training, it may produce high SHFS by pattern-matching memorized data rather than through generalizable behavioral simulation. Critically, this threat is not uniform across design variables: prompt configurations that reproduce verbatim item text or demographic labels may elicit *more* memorized content than configurations using paraphrased or minimized prompts, potentially biasing the design-feature importance rankings even when contamination is acknowledged at the dataset level.
+**Item-level scoring.** For each (item, model) pair in Tier 2–3 cells, two probes are run per model using token log-probabilities (open-weights models directly; closed-source models via a matched open-weights proxy): (a) Min-K% probability probe (K = 20%; Shi et al., 2024) — anomalously high probability on the least-likely tokens flags memorization; (b) shuffled-response perplexity ratio — a ratio > 1.5 (original vs. shuffled token ordering) is a positive indicator. Each pair receives a contamination score (0–1); scores ≥ 0.5 are flagged. Items flagged for ≥ 5 of 10 models are classified as broadly contaminated and excluded from all clean-only analyses.
 
-**Stage 1 — Dataset × model contamination risk matrix.** Contamination risk is not a property of a dataset alone: it depends on the specific model's training cutoff relative to when dataset content became publicly indexed. A dataset released after a model's training cutoff cannot be contaminated in that model's weights. Stage 1 therefore assigns a contamination risk tier for every (dataset, model) cell rather than per dataset globally.
+**Design-variable interaction test.** Five design variables most likely to modulate memorization are tested for a contamination × design-variable interaction in a supplementary OLS model controlling for dataset-family and outcome-mode fixed effects: (1) conditioning depth, (2) prompt framing, (3) few-shot exemplar inclusion, (4) model capability tier (MMLU ≥ 0.82 vs. < 0.82), and (5) output constraint strategy. A significant positive interaction indicates that a feature's SHFS benefit is inflated in high-contamination conditions; those features are flagged in the main text. Familywise error rate controlled with Holm-Bonferroni across the five tests.
 
-*Tier definitions:*
-
-| Tier | Definition |
-|---|---|
-| 0 — Clean | Dataset first publicly available strictly after the model's documented training cutoff |
-| 1 — Low | Dataset released ≤ 6 months before the model's cutoff, or very limited web visibility (no major indexing) |
-| 2 — Moderate | Dataset public > 6 months before cutoff, downloadable but low web-text volume (niche academic) |
-| 3 — High | Dataset public > 6 months before cutoff AND widely web-indexed (survey items cited in media, Wikipedia, blog posts, or high-volume preprint text) |
-
-*Documented training cutoffs for the ten pilot models (confirmed from published model cards or official documentation; TBD values confirmed before pilot execution):*
-
-| Model | OpenRouter ID | Documented training cutoff |
-|---|---|---|
-| Liquid LFM 2.5 1.2B | `liquid/lfm-2.5-1.2b-instruct:free` | TBD — confirm from Liquid AI model card before pilot |
-| Meta Llama 3.2 1B | `meta-llama/llama-3.2-1b-instruct` | December 2023 |
-| Meta Llama 3.2 3B | `meta-llama/llama-3.2-3b-instruct` | December 2023 |
-| Meta Llama 3.1 8B | `meta-llama/llama-3.1-8b-instruct` | December 2023 |
-| Google Gemma 2 27B | `google/gemma-2-27b-it` | ~April 2024 (approximate; Google has not published a precise date) |
-| OpenAI GPT-4o mini | `openai/gpt-4o-mini` | October 2023 |
-| Microsoft Phi-4 | `microsoft/phi-4` | June 2024 |
-| Meta Llama 3.3 70B | `meta-llama/llama-3.3-70b-instruct` | December 2023 |
-| OpenAI GPT-4o | `openai/gpt-4o` | April 2024 |
-| OpenAI GPT-5 | `openai/gpt-5` | TBD — confirm from OpenAI documentation before pilot |
-
-*Effective contamination risk by dataset × model (Tier 0–3; preliminary assignment, locked before generation):*
-
-| Dataset | First public availability | Llama 3.2 1B/3B (Dec 2023) | Llama 3.1 8B (Dec 2023) | GPT-4o mini (Oct 2023) | Gemma 2 27B (~Apr 2024) | Phi-4 (Jun 2024) | Llama 3.3 70B (Dec 2023) | GPT-4o (Apr 2024) | GPT-5 (TBD) |
-|---|---|---|---|---|---|---|---|---|---|
-| AIID | 2018 (OSF) | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 |
-| Race IAT | Items public since ~2002; 2025 archive is annual re-release of unchanged instrument | 3† | 3† | 3† | 3† | 3† | 3† | 3† | 3† |
-| ANES CDF | Ongoing since 1948; cumulative file updated annually | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 |
-| GSS | Ongoing since 1972; high web-text volume | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 |
-| ESS (rounds 1–11) | Round 1 public 2003; merged 2024 Zenodo file is new compilation, underlying data pre-2024 | 3‡ | 3‡ | 3‡ | 3‡ | 3‡ | 3‡ | 3‡ | 3‡ |
-| WVS Wave 7 | 2022 (WVSA public release) | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 |
-| Moral Machine | 2018 (Nature + OSF) | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 |
-| Psych-101 / Centaur | April 2025 (Nature paper + HuggingFace) | **0** | **0** | **0** | **0** | **0** | **0** | **0** | 1–2§ |
-
-† Race IAT 2025 archive: the specific data file is new but the item wording, response options, and IAT block structure are substantively unchanged from prior years that are fully pre-training. Tier 3 is applied to reflect the functional contamination risk of the survey instrument, not the archival release date.
-
-‡ ESS Zenodo 2024 compilation: the underlying country-round items date from 2002–2023, all pre-training for every model. Tier 3 applied.
-
-§ GPT-5 training cutoff is TBD. If confirmed at or after April 2025, Psych-101/Centaur is assigned Tier 2 for GPT-5 given limited but non-zero web indexing in the weeks following publication.
-
-*Implications of the matrix.* Seven of eight datasets are Tier 3 for all ten models: their item text, response distributions, and aggregate findings were publicly available long before any pilot model's training cutoff. **Psych-101/Centaur is the single naturally clean validation dataset for nine of ten models.** This gives it special status in Stage 4: it is the primary clean-only hold-out. For the LFM 2.5 1.2B and GPT-5 models, their cutoffs must be confirmed before pilot execution; if either falls after April 2025, Psych-101 is reclassified and the deviation is logged.
-
-Tier assignments are locked in `src/data/sources_manifest.json` before any generation run. If a model's documented training cutoff changes from its currently published value by more than 60 days (e.g., due to a model card revision), the matrix is updated and the change is logged as a deviation.
-
-**Stage 2 — Item-level contamination scoring (per model).** Because each model has its own training cutoff and corpus composition, contamination scores are computed separately for each model, not aggregated across models. For each (item, model) pair in Tier 2 and Tier 3 cells of the Stage 1 matrix, an item-level contamination score is computed using two complementary methods applied where token log-probabilities are accessible:
-
-*Method A — Min-K% probability probe (Shi et al., 2024).* For each item string (wording + response options concatenated), compute the average log-probability assigned to the K% least probable tokens. Items for which a model assigns anomalously high probability to the least-likely tokens—indicating the model has memorized the sequence—are flagged as potentially contaminated. The threshold K is set to 20% following Shi et al. (2024); sensitivity to K ∈ {10%, 30%} is reported.
-
-*Method B — Shuffled-response perplexity probe.* For each item, compute model perplexity on the original human response string and on a randomly shuffled version of the same response tokens. A contamination indicator is positive if the perplexity ratio (shuffled / original) exceeds 1.5, indicating that the model assigns substantially higher likelihood to the original ordering than chance. Both probes are run on the training-set human responses only; test-set responses are not used in the contamination scoring to prevent any leakage.
-
-For closed-source models where log-probabilities are unavailable (e.g., GPT-4o, GPT-5), a proxy contamination score is derived from an open-weights model with the most similar MMLU tier and the most overlapping known training data vintage (e.g., Llama 3.1 70B as proxy for GPT-4o). Proxy scores are used only for sensitivity analyses; primary detection results are reported only for models where direct log-probability access is confirmed.
-
-Each (item, model) pair receives a contamination risk score (0–1) equal to the average of the two probe indicators where available. Scores ≥ 0.5 classify the pair as **contamination-flagged**. An item flagged for ≥ 5 of the 10 models is classified as **broadly contaminated** and excluded from all clean-only analyses regardless of the individual model's tier assignment.
-
-**Stage 3 — Design-variable contamination interaction test.** The primary peer-review concern is not just that contamination exists, but that some design configurations may elicit more memorized content than others—biasing design-feature importance estimates. This is tested explicitly for five design variables most likely to modulate memorization:
-
-1. **Conditioning depth** (full vs. minimal): full conditioning includes more verbatim item metadata and demographic labels that may serve as retrieval cues.
-2. **Prompt framing** (persona-constrained vs. task-framing-only): persona prompts explicitly reference item context, potentially triggering memorized distributional responses.
-3. **Few-shot exemplar inclusion** (present vs. absent): if exemplars reproduce benchmark item text verbatim, fidelity gain may reflect retrieval rather than simulation.
-4. **Model capability tier** (MMLU ≥ 0.82 vs. < 0.82): frontier models have larger training corpora and are more likely to have memorized public datasets.
-5. **Output constraint strategy** (hard-bounded structured vs. free text): structured outputs constrain the response space in ways that may elicit or suppress memorization differently.
-
-For each of the five variables, a two-way interaction is tested in a supplementary OLS model:
-
-```
-SHFS ~ design_variable × contamination_tier + dataset_family_FE + outcome_mode_FE
-```
-
-A significant positive interaction (design_variable × Tier 3 > 0) indicates that the feature's fidelity benefit is inflated in high-contamination conditions, and the design-feature conclusion for that variable must be interpreted with an explicit contamination caveat.
-
-**Stage 4 — Corrected analysis.** Four corrected versions of the primary ML analysis are run as supplementary results, in ascending order of confidence:
-
-*4a — Psych-101/Centaur natural clean holdout.* Psych-101/Centaur is Tier 0 for nine of ten models (the only dataset released strictly after their training cutoffs). It therefore serves as a **natural contamination-free validation set** requiring no probe-based filtering. The full primary ML analysis is re-run using Psych-101/Centaur cells only, and design-feature importance rankings are compared against the full-data results. This is the highest-confidence corrected analysis because it requires no model-based contamination detection; its limitation is low n (one dataset family). If GPT-5's training cutoff is confirmed as post-April 2025, Psych-101 cells involving GPT-5 are reclassified and excluded from this sub-analysis.
-
-*4b — Probe-based clean-only re-run.* Restrict the full dataset to (item, model) pairs with contamination score < 0.5 (not contamination-flagged in Stage 2), excluding also any item classified as broadly contaminated. The same OLS and XGBoost pipelines from §15 are applied. Report whether the top-5 design features by partial R² and mean absolute SHAP change materially (rank shift > 2 positions) relative to the full-data analysis.
-
-*4c — Inverse-contamination-probability weighting.* Use (1 − contamination score) as a case weight in the WLS estimator from §15.1, applied at the (item, model) level. Contamination scores from Tier 0 cells are set to 0 (no downweighting). This preserves statistical power while continuously downweighting contaminated pairs, and produces a weighted feature-importance ranking comparable to 4b.
-
-*4d — Cutoff-stratified model comparison.* Split models into two groups by training cutoff: early-cutoff (Oct–Dec 2023: GPT-4o mini, all Llama 3.2/3.1/3.3 models) and late-cutoff (Apr–Jun 2024: Gemma 2 27B, Phi-4, GPT-4o). For the same items and datasets, late-cutoff models have had more opportunity to ingest web content published between 2023 and their cutoff. If design-feature importance rankings are materially different between early- and late-cutoff model groups on the same Tier 3 datasets, this suggests that the capability–fidelity relationship reported for higher-MMLU models conflates genuine capability with training-data recency. Any such divergence is reported and interpreted explicitly.
-
-**Stage 5 — Reporting.** The contamination analysis produces the following preregistered supplementary outputs:
-
-- **Supplementary Table C1:** Dataset × model contamination risk matrix from Stage 1, with training cutoff dates and tier assignments; updated from the preliminary table above to reflect any confirmed cutoff revisions before pilot execution.
-- **Supplementary Table C2:** Item-level contamination scores per model (Min-K% and perplexity probes), aggregated to dataset-task × model cells. Proportion of broadly contaminated items per dataset.
-- **Supplementary Table C3:** Contamination × design-variable interaction coefficients (Stage 3) with Holm-Bonferroni corrections for the five tested variables.
-- **Supplementary Table C4:** Feature importance comparison across all four corrected analyses (4a–4d) vs. full-data baseline: top-10 features by partial R² and mean absolute SHAP, with rank and magnitude differences.
-- **Supplementary Figure C1:** UMAP projection of all (item, model) cells colored by contamination tier and SHFS; clean (Tier 0) cells highlighted.
-- **Supplementary Figure C2:** Scatter of full-data SHFS vs. probe-corrected SHFS (4b) by configuration and model, faceted by dataset family. Pearson r and regression line reported per facet.
-- **Main text decision rule:** If the top-5 feature importance rankings from the Psych-101 natural clean holdout (4a) differ from the full-data rankings by > 2 rank positions for any feature, that feature's main-text interpretation is appended with: *"Caution: this feature's importance may be partially attributable to training-data contamination; see Supplementary Tables C3–C4."*
-
-**What contamination does and does not threaten.** Contamination uniformly inflates absolute SHFS for a given model and dataset; it does not, by itself, distort *comparative* design-feature conclusions unless some configurations elicit more memorization than others (Stage 3). The primary study claim—that design choices explain variance in SHFS—remains valid under uniform contamination. The secondary claim—that the recommended protocol produces genuinely higher fidelity relative to baselines—is the one requiring the Stage 4 clean-only validation. If clean-only results and full-data results converge on the same top design features, the protocol recommendations are robust to contamination. If they diverge, the protocol is revised to report only features stable across both analyses.
-
-**Reference.** Shi, W., Ajith, A., Xia, M., Huang, Y., Liu, D., Blevins, T., Chen, D., & Zettlemoyer, L. (2024). Detecting pretraining data from the ground up. *International Conference on Learning Representations (ICLR 2024)*. https://arxiv.org/abs/2310.16789
+**Corrected analyses.** Four supplementary re-runs are reported: (a) *Psych-101 natural holdout* — primary ML analysis restricted to Psych-101/Centaur cells, which are probe-free Tier 0 for nine models and serve as the highest-confidence clean validation; (b) *probe-based clean-only re-run* — all datasets, restricted to non-flagged (item, model) pairs; (c) *inverse-contamination-probability WLS* — (1 − contamination score) as case weight, preserving power while downweighting flagged pairs; (d) *early- vs. late-cutoff model comparison* — models grouped by cutoff (Oct–Dec 2023 vs. Apr–Jun 2024) to test whether capability–fidelity relationships conflate genuine capability with training-data recency on Tier 3 datasets. If the top-5 feature rankings from analysis (a) diverge from full-data rankings by > 2 positions for any feature, that feature's main-text conclusion is flagged with an explicit contamination caveat. Full results reported in Supplementary Tables C1–C4 and Figures C1–C2.
 
 ## 20. Ethics, Privacy, and Governance
 

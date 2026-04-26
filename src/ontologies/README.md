@@ -22,10 +22,8 @@ src/ontologies/
 ├── sample_configurations.py    # CLI to enumerate / sample eligible configs
 ├── samples/
 │   └── eligible_samples.txt    # example output (one config per non-comment row)
-├── constructs/
-│   └── study_constructs.txt    # downstream-study construct list (separate)
-└── archive/
-    └── simulation_designs_v1.json   # the previous template, kept for diffing
+└── constructs/
+    └── study_constructs.txt    # downstream-study construct list (separate)
 ```
 
 `build_ontology.py` is the source of truth. Re-run it to regenerate

@@ -136,10 +136,8 @@ research_paper_on_synthetic_generation_design/
     │   ├── sample_configurations.py     # CLI sampler with subtree filtering
     │   ├── samples/
     │   │   └── eligible_samples.txt     # canonical 100-config smoke-test output
-    │   ├── constructs/
-    │   │   └── study_constructs.txt     # downstream study construct list
-    │   └── archive/
-    │       └── simulation_designs_v1.json  # previous template, kept for diffing
+    │   └── constructs/
+    │       └── study_constructs.txt     # downstream study construct list
     ├── preregistration/
     │   ├── osf/
     │   │   └── osf_preregistration.md   # single canonical preregistration document

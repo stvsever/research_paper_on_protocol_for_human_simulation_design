@@ -1,6 +1,6 @@
 # Synthetic-Human-Behavior Design Ontology
 
-A typed, machine-readable ontology of design choices that researchers and practitioners face when generating LLM-simulated human-behavior data, together with executable tooling that enumerates or randomly samples **eligible** configurations from the combinatorial state space. The artifact formalizes the full state space of LLM simulation design decisions (cardinality rules, cross-tree hard constraints, and typed leaf metadata) from which empirical studies can draw structured, reproducible configuration samples.
+A machine-readable ontology of design choices that researchers and practitioners face when generating LLM-simulated human-behavior data, together with executable tooling that enumerates or randomly samples **eligible** configurations from the combinatorial state space. The artifact formalizes the full state space of LLM simulation design decisions (e.g., cardinality rules, cross-tree hard constraints, and leaf metadata) from which empirical studies can draw structured, reproducible configuration samples.
 
 ---
 

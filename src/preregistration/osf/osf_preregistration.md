@@ -684,7 +684,7 @@ Dataset, model-source, and DOI checks were performed on 2026-04-25. Raw-source s
 | LM Market Cap benchmark table | Used for higher-capability pilot MMLU anchors; values frozen in `src/data/raw/model_benchmarks/mmlu_pilot_model_mapping.csv` | Source: https://lmmarketcap.com/benchmarks; no DOI |
 | Meta Llama 3.2 model card | Used for MMLU anchors at targets 0.49 and 0.63 | Source: https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct; no DOI |
 | Liquid AI LFM 2.5 model documentation | Used for lowest MMLU pilot anchor (target 0.35); MMLU TBD — must be confirmed from published Liquid AI benchmarks before pilot execution | Source: https://www.liquid.ai/liquid-foundation-models; no DOI |
-| OpenRouter API and rankings | API availability checked for all ten pilot model IDs via `/api/v1/models` endpoint on 2026-04-25; all ten IDs confirmed present in the model list | Sources: https://openrouter.ai/rankings and https://openrouter.ai/docs/api-reference/list-endpoints-for-a-model; no DOI |
+| OpenRouter API and rankings | API availability checked for all ten pilot model IDs via `/api/v1/models` endpoint on 2026-04-25; all ten IDs confirmed present in the model list | Source: https://openrouter.ai/rankings; no DOI |
 
 ### 24.2 Reference List for Cited Datasets and Articles
 
@@ -698,7 +698,7 @@ Dataset, model-source, and DOI checks were performed on 2026-04-25. Raw-source s
 8. Awad, E., Dsouza, S., Kim, R., Schulz, J., Henrich, J., Shariff, A., Bonnefon, J.-F., & Rahwan, I. (2018). The Moral Machine experiment. Nature, 563, 59-64. https://doi.org/10.1038/s41586-018-0637-6
 9. Binz, M., Akata, E., Bethge, M., et al. (2025). A foundation model to predict and capture human cognition. Nature, 644, 1002-1009. https://doi.org/10.1038/s41586-025-09215-4
 10. LM Market Cap. (2026). AI benchmark explorer and model benchmark tables. https://lmmarketcap.com/benchmarks
-11. OpenRouter. (2026). Rankings and API documentation. https://openrouter.ai/rankings and https://openrouter.ai/docs/api-reference/list-endpoints-for-a-model
+11. OpenRouter. (2026). Rankings and API documentation. https://openrouter.ai/rankings
 12. Meta. (2024). Llama 3.2 1B Instruct model card. https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct
 13. Liquid AI. (2025). LFM 2.5 model family documentation. https://www.liquid.ai/liquid-foundation-models (MMLU benchmark values to be confirmed from published model card before pilot execution.)
 14. Cameron, A. C., & Miller, D. L. (2015). A practitioner's guide to cluster-robust inference. *Journal of Human Resources*, *50*(2), 317–372. https://doi.org/10.3368/jhr.50.2.317

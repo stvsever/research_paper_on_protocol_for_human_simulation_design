@@ -135,7 +135,9 @@ research_paper_on_synthetic_generation_design/
     │   ├── ontology.json                # canonical artifact (1123 leaves, 209 groups, 39 constraints)
     │   ├── sample_configurations.py     # CLI sampler with subtree filtering
     │   ├── samples/
-    │   │   └── eligible_samples.txt     # canonical 100-config smoke-test output
+    │   │   ├── pilot.txt                # 500 eligible pilot configurations (conventional_core)
+    │   │   ├── eligible_samples.txt     # canonical 100-config smoke-test output
+    │   │   └── minimal_smoke.txt        # 20-config end-to-end smoke test
     │   └── constructs/
     │       └── study_constructs.txt     # downstream study construct list
     ├── preregistration/
@@ -205,12 +207,6 @@ python sample_configurations.py --list-subtrees
 python sample_configurations.py \
   --include-subtree interaction_decomposition_and_orchestration.multi_agent_simulation_design \
   --list-leaves
-
-# Multi-agent focus, random draws
-python sample_configurations.py \
-  --preset multi_agent_focus \
-  --max-samples 200 --seed 1 \
-  --output samples/multi_agent.txt
 ```
 
 ### Compile the manuscript
@@ -251,7 +247,8 @@ flowchart TD
 | File / Directory | Description |
 |---|---|
 | `src/ontologies/ontology.json` | Canonical simulation design ontology |
-| `src/ontologies/samples/eligible_samples.txt` | Example eligible configuration sample |
+| `src/ontologies/samples/pilot.txt` | 500 eligible pilot configurations (conventional_core, seed 7) |
+| `src/ontologies/samples/eligible_samples.txt` | 100-config smoke-test sample |
 | `src/preregistration/osf/osf_preregistration.md` | Full preregistration document (upload to OSF) |
 | `src/preregistration/deviations.md` | Deviation log (update before any confirmatory analysis) |
 | `src/data/raw/model_benchmarks/mmlu_pilot_model_mapping.csv` | Frozen 10-tier MMLU pilot model mapping |

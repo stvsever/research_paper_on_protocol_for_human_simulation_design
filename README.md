@@ -135,7 +135,7 @@ research_paper_on_synthetic_generation_design/
     │   ├── ontology.json                # canonical artifact (1123 leaves, 209 groups, 39 constraints)
     │   ├── sample_configurations.py     # CLI sampler with subtree filtering
     │   ├── samples/
-    │   │   ├── pilot.txt                # 500 eligible pilot configurations (conventional_core)
+    │   │   ├── pilot.txt                # 40 pilot design cells (10 MMLU × 2 critic × 2 conditioning)
     │   │   ├── eligible_samples.txt     # canonical 100-config smoke-test output
     │   │   └── minimal_smoke.txt        # 20-config end-to-end smoke test
     │   └── constructs/
@@ -247,7 +247,7 @@ flowchart TD
 | File / Directory | Description |
 |---|---|
 | `src/ontologies/ontology.json` | Canonical simulation design ontology |
-| `src/ontologies/samples/pilot.txt` | 500 eligible pilot configurations (conventional_core, seed 7) |
+| `src/ontologies/samples/pilot.txt` | Complete pilot design (40 cells: 10 MMLU × 2 critic × 2 conditioning, all valid) |
 | `src/ontologies/samples/eligible_samples.txt` | 100-config smoke-test sample |
 | `src/preregistration/osf/osf_preregistration.md` | Full preregistration document (upload to OSF) |
 | `src/preregistration/deviations.md` | Deviation log (update before any confirmatory analysis) |

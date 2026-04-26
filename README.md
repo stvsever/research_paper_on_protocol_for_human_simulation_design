@@ -27,7 +27,7 @@
 - [🗂️ Repository Structure](#️-repository-structure)
 - [🛠️ Setup and Installation](#️-setup-and-installation)
 - [🚀 Usage](#-usage)
-- [🧬 Pipeline Overview](#-pipeline-overview)
+- [⚙️ Pipeline Overview](#️-pipeline-overview)
 - [📦 Outputs](#-outputs)
 - [🔬 Methodological Notes](#-methodological-notes)
 - [📚 Citation](#-citation)
@@ -224,7 +224,7 @@ make paper
 
 ---
 
-## 🧬 Pipeline Overview
+## ⚙️ Pipeline Overview
 
 ```mermaid
 flowchart TD

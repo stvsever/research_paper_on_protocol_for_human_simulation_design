@@ -43,12 +43,6 @@ Large language models (LLMs) are increasingly used to simulate human behavioral 
 
 ## 📊 Methodology Overview
 
-**Figure 1 — Design State Space Ontology and Configuration Sampling Logic**
-
-![Design state space ontology and configuration sampling logic](src/preregistration/assets/figures/FIG1_design_ontology_sampling_logic.png)
-
-**Figure 2 — Eight-Stage Empirical Pipeline**
-
 ![Eight-stage empirical pipeline from design space ontology to data-driven protocol derivation](src/preregistration/assets/figures/FIG2_methodology_full_pipeline_.png)
 
 An eight-stage pipeline applies a machine-readable ontology (1,149 design choices, 44 hard constraints) to sample eligible configurations, which are evaluated across eight benchmark datasets spanning seven behavioral domains. For each configuration-dataset-task cell, LLM-generated responses are compared to held-out human responses using the standardized silicon-human fidelity score (SHFS). The resulting feature matrix (ontology indicators, MMLU capability, dataset descriptors) is split 60/20/20 (train/validation/test) with grouped k-fold cross-validation. Two complementary models identify design features predicting fidelity: a transparent OLS/WLS linear model and an XGBoost ensemble with TreeSHAP. Evidence of convergence between both models yields a four-layer empirically validated protocol (universal core, domain-conditional rules, cost-tiered guidance, decision tree), validated on held-out configurations and dataset families.
